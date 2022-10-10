@@ -1,0 +1,13 @@
+log:
+  logPath: ./logs
+  logName: insight-api
+
+mysql:
+  user: root
+  password: xiaoguang
+  address: 127.0.0.1:3306
+  name: insight_db
+
+wx:
+  appid: APPID
+  secret: SECRET

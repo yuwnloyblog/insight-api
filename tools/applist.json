@@ -1,0 +1,364 @@
+{
+    "data": {
+        "gross": [
+            {
+                "order": 1,
+                "title": "拼多多",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0395a512b08b54edc884ee8150f88f099751ea918",
+                "publisher": {
+                    "title": "上海寻梦信息技术有限公司",
+                    "uid": "233ebafb-6180-4e6c-92e5-4ac1681be0fd"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.xunmeng.pinduoduo",
+                "category": "时尚购物",
+                "downloadCount": 10700000000,
+                "delta": 0
+            },
+            {
+                "order": 2,
+                "title": "百度",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/02821263aa1f24e35bf0fa3f40311970f1c2d85f5",
+                "publisher": {
+                    "title": "百度在线网络技术（北京）有限公司",
+                    "uid": "a1c5ed0d-16ec-4f85-af59-9c483c4afce4"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.baidu.searchbox",
+                "category": "新闻资讯",
+                "downloadCount": 7400000000,
+                "delta": 0
+            },
+            {
+                "order": 3,
+                "title": "快手",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/034c63427698c40751d7be7aaaa7613cd4866f68b",
+                "publisher": {
+                    "title": "北京快手科技有限公司",
+                    "uid": "3e26f579-59c1-45f5-98cc-dce344453e89"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.smile.gifmaker",
+                "category": "影音视听",
+                "downloadCount": 6735957058,
+                "delta": 0
+            },
+            {
+                "order": 4,
+                "title": "今日头条",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/02295ab0c85bf4ddc8fb0e25388efb17482133f2f",
+                "publisher": {
+                    "title": "北京字节跳动科技有限公司",
+                    "uid": "6cc07df8-1632-4940-a9db-9574821bfe34"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.ss.android.article.news",
+                "category": "新闻资讯",
+                "downloadCount": 6300000000,
+                "delta": 0
+            },
+            {
+                "order": 5,
+                "title": "华为商城",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/07a6f10a47bd34ccaa91951df215e874cc2f56049",
+                "publisher": {
+                    "title": "华为终端有限公司",
+                    "uid": "eaebbe77-83c3-4e35-9153-ee558a283c27"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.vmall.client",
+                "category": "时尚购物",
+                "downloadCount": 5800418754,
+                "delta": 0
+            },
+            {
+                "order": 6,
+                "title": "淘宝",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/00fa738114fb14cfd99adf0441070190d14f51852",
+                "publisher": {
+                    "title": "浙江淘宝网络有限公司",
+                    "uid": "85c514d9-7438-459a-8351-dd9f64477434"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.taobao.taobao",
+                "category": "时尚购物",
+                "downloadCount": 5800000000,
+                "delta": 0
+            },
+            {
+                "order": 7,
+                "title": "支付宝",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/089dd1f5b08dc40a78ad29e70c66dc4fca01b4320",
+                "publisher": {
+                    "title": "支付宝（杭州）信息技术有限公司",
+                    "uid": "dd654573-4b6d-4f14-9263-db15ae30e51c"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.eg.android.AlipayGphone",
+                "category": "支付",
+                "downloadCount": 5576922078,
+                "delta": 0
+            },
+            {
+                "order": 8,
+                "title": "微博",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0bf2d587fa3774b7585092d9e37c54932a60295ba",
+                "publisher": {
+                    "title": "微梦创科网络科技（中国）有限公司",
+                    "uid": "1cd58f33-1d2e-42a4-936b-d4c5acf85618"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.sina.weibo",
+                "category": "新闻",
+                "downloadCount": 5500000000,
+                "delta": 0
+            },
+            {
+                "order": 9,
+                "title": "快手极速版",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0116538e86a3a4652baa2d31931be0ae35145fb33",
+                "publisher": {
+                    "title": "北京快手科技有限公司",
+                    "uid": "3e26f579-59c1-45f5-98cc-dce344453e89"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.kuaishou.nebula",
+                "category": "影音视听",
+                "downloadCount": 5427876640,
+                "delta": 0
+            },
+            {
+                "order": 10,
+                "title": "抖音极速版",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0c5cc1dcc71724472a00660488469c599ab87febe",
+                "publisher": {
+                    "title": "北京微播视界科技有限公司",
+                    "uid": "3991d828-b021-403c-b394-60afd3d4a8d5"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.ss.android.ugc.aweme.lite",
+                "category": "摄影摄像",
+                "downloadCount": 5000000000,
+                "delta": 0
+            },
+            {
+                "order": 11,
+                "title": "QQ浏览器",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/008058a74850e4522a78ea52ca0e24b7cc2b3ba28",
+                "publisher": {
+                    "title": "深圳市腾讯计算机系统有限公司",
+                    "uid": "f337facc-03e5-4861-9804-8cc05c15c433"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.tencent.mtt",
+                "category": "实用工具",
+                "downloadCount": 4938569346,
+                "delta": 0
+            },
+            {
+                "order": 12,
+                "title": "京东",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/02fea3bcaab154f639e1b2264d3f9ef6b2a2ee1a3",
+                "publisher": {
+                    "title": "北京京东世纪贸易有限公司",
+                    "uid": "1818c793-63da-4339-b1b8-d20f30c5853a"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.jingdong.app.mall",
+                "category": "时尚购物",
+                "downloadCount": 4600000000,
+                "delta": 0
+            },
+            {
+                "order": 13,
+                "title": "美团-美好生活小帮手",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0942a03d9d9ea4baea6c399ad86dfcee45cc8056f",
+                "publisher": {
+                    "title": "北京三快在线科技有限公司",
+                    "uid": "1ed5d227-ac77-4887-b0a2-933f9a0a0a5a"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.sankuai.meituan",
+                "category": "居家生活",
+                "downloadCount": 4600000000,
+                "delta": 0
+            },
+            {
+                "order": 14,
+                "title": "运动健康",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0edc05b0d67d312a48e7b57b3c0b6bcfafa429920",
+                "publisher": {
+                    "title": "华为软件技术有限公司",
+                    "uid": "0bc43129-df0e-4be2-90ad-1205f4f1a619"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.huawei.health",
+                "category": "体育运动",
+                "downloadCount": 4300000000,
+                "delta": 0
+            },
+            {
+                "order": 15,
+                "title": "腾讯视频",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/03713eabe9545442f940b48ec5fa1710146fc10c7",
+                "publisher": {
+                    "title": "腾讯科技（北京）有限公司",
+                    "uid": "bc04a6f2-b5fa-4a21-9152-cfd3d1a0c1f8"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.tencent.qqlive",
+                "category": "影音视听",
+                "downloadCount": 4228523825,
+                "delta": 0
+            },
+            {
+                "order": 16,
+                "title": "WiFi万能钥匙",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0e381ab6207cf48b5879c4af6f552288e2ad5c56f",
+                "publisher": {
+                    "title": "南京尚网网络科技有限公司",
+                    "uid": "2d7d2204-3aeb-45e5-b438-9da9479a8928"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.snda.wifilocating",
+                "category": "实用工具",
+                "downloadCount": 3423043416,
+                "delta": 0
+            },
+            {
+                "order": 17,
+                "title": "UC浏览器",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/03c3068f872be452297b8cb8dc7730d7bed9e2e0b",
+                "publisher": {
+                    "title": "广州市动景计算机科技有限公司",
+                    "uid": "9364628c-832d-4aaf-9e8e-a44adb8fe620"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.UCMobile",
+                "category": "实用工具",
+                "downloadCount": 3400000000,
+                "delta": 0
+            },
+            {
+                "order": 18,
+                "title": "唯品会-品牌特卖",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/04abc64fd787347eaad1d7c949e19511d1593c2b5",
+                "publisher": {
+                    "title": "广州唯品会电子商务有限公司",
+                    "uid": "9adc439f-977a-4343-b4eb-318fc700629a"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.achievo.vipshop",
+                "category": "时尚购物",
+                "downloadCount": 3400000000,
+                "delta": 0
+            },
+            {
+                "order": 19,
+                "title": "微信",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/04404c51f50c543240bf5cfb0f0dea6c6cd1456e3",
+                "publisher": {
+                    "title": "广州腾讯科技有限公司",
+                    "uid": "06c1ab37-17c7-49c4-9e02-bb5452a5d97e"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.tencent.mm",
+                "category": "社区",
+                "downloadCount": 3300000000,
+                "delta": 0
+            },
+            {
+                "order": 20,
+                "title": "WPS Office",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0827356462d5c989e3aad2f3be5f944b11b42a67c",
+                "publisher": {
+                    "title": "珠海金山办公软件有限公司",
+                    "uid": "ef0c05e5-ce20-4326-85f1-3ef8bf76771b"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:cn.wps.moffice_eng",
+                "category": "效率办公",
+                "downloadCount": 3300000000,
+                "delta": 0
+            },
+            {
+                "order": 21,
+                "title": "高德地图-高德打车,导航公交地铁",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0248d447f92d9460e36d76620873eec3ff5249b97",
+                "publisher": {
+                    "title": "高德软件有限公司",
+                    "uid": "4266d13a-3dd8-4274-ac60-85adbd7fd01c"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.autonavi.minimap",
+                "category": "地图",
+                "downloadCount": 3050877711,
+                "delta": 0
+            },
+            {
+                "order": 22,
+                "title": "携程旅行",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/07fd3bd3aaf704243a9a139a3b663fb8e2a370d14",
+                "publisher": {
+                    "title": "携程计算机技术（上海）有限公司",
+                    "uid": "377c5167-62f2-4967-9de0-e15223646f8d"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:ctrip.android.view",
+                "category": "旅行交通",
+                "downloadCount": 2900000000,
+                "delta": 0
+            },
+            {
+                "order": 23,
+                "title": "喜马拉雅",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/0cc2fb353bd314507980e87780a7c95facdeb4fef",
+                "publisher": {
+                    "title": "喜大(上海)网络科技有限公司",
+                    "uid": "411119fb-665d-44b4-87bc-9bfa75134496"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.ximalaya.ting.android",
+                "category": "影音视听",
+                "downloadCount": 2829217626,
+                "delta": 0
+            },
+            {
+                "order": 24,
+                "title": "58同城-招聘找工作租房家政买车",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/08de995a9d6a84e7a9f74a3cbea96e14dc7ccae06",
+                "publisher": {
+                    "title": "北京五八信息技术有限公司",
+                    "uid": "a4067eee-acd9-444c-9a3c-dc8fda32b9d2"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.wuba",
+                "category": "居家生活",
+                "downloadCount": 2800000000,
+                "delta": 0
+            },
+            {
+                "order": 25,
+                "title": "优酷视频-两个人的小森林 独播",
+                "logoURL": "https://xiaomi-icon.oss-cn-hangzhou.aliyuncs.com/download/AppStore/094ebe44692694c8802f0ff366075e635e3159e0f",
+                "publisher": {
+                    "title": "合一信息技术（北京）有限公司",
+                    "uid": "b745b462-6b66-4de4-9022-ac4b12fed2fe"
+                },
+                "channel": "xiaomi",
+                "uid": "xiaomi:android:com.youku.phone",
+                "category": "影音视听",
+                "downloadCount": 2746694900,
+                "delta": 0
+            }
+        ],
+        "updatedAt": "2022-10-09T10:19:24.381754535+08:00",
+        "pagination": {
+            "page": 1,
+            "pageSize": 25,
+            "total": 0,
+            "nextPage": 2,
+            "totalLimit": 500
+        }
+    }
+}

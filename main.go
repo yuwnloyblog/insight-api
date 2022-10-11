@@ -2,21 +2,19 @@ package main
 
 import (
 	"insight-api/apis"
-	"insight-api/configures"
-	"insight-api/dbs"
 	"insight-api/tools"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	configures.InitConfigures()
-	dbs.InitMysql()
+	// configures.InitConfigures()
+	// dbs.InitMysql()
 
 	//router()
 
 	//tools.CatchDevelopers()
-	tools.CatchApps()
+	tools.CatchSdks()
 }
 
 func router() {

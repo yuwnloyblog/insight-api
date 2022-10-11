@@ -11,15 +11,16 @@ func QuerySdksByAppId(appId int64) []*SdkInfo {
 	if err == nil && len(sdkdbs) > 0 {
 		sdkInfos := make([]*SdkInfo, 0)
 		for _, sdkdb := range sdkdbs {
-			idStr, _ := utils.Encode(sdkdb.ID)
 			sdkInfos = append(sdkInfos, &SdkInfo{
-				Id:          idStr,
-				Name:        sdkdb.Name,
-				BundleId:    sdkdb.BundleId,
-				Description: sdkdb.Description,
-				LogoUrl:     sdkdb.LogoUrl,
-				Classify:    sdkdb.Classify,
-				Developer:   GetDeveloperById(sdkdb.DeveloperId),
+				Id:        sdkdb.ID,
+				Name:      sdkdb.Name,
+				Platforms: sdkdb.Platforms,
+				Category:  sdkdb.Category,
+				Developer: &Developer{
+					Id:    sdkdb.DeveloperId,
+					Title: sdkdb.DeveloperName,
+				},
+				LogoUrl: sdkdb.LogoUrl,
 			})
 		}
 		return sdkInfos

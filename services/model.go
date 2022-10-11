@@ -50,13 +50,12 @@ type Developer struct {
 }
 
 type SdkInfo struct {
-	Id          string     `json:"id"`
-	Name        string     `json:"name"`
-	BundleId    string     `json:"bundle_id"`
-	Description string     `json:"desc"`
-	LogoUrl     string     `json:"logo_url"`
-	Classify    string     `json:"classify"`
-	Developer   *Developer `json:"developer"`
+	Id        string     `json:"id"`
+	Name      string     `json:"name"`
+	Platforms string     `json:"platform"`
+	Category  string     `json:"category"`
+	Developer *Developer `json:"devloper"`
+	LogoUrl   string     `json:"logoUrl"`
 }
 
 type User struct {

@@ -5,25 +5,24 @@ import (
 )
 
 type DeveloperDao struct {
-	ID             int64     `gorm:"primary_key"`
+	ID             string    `gorm:"id"`
 	Title          string    `gorm:"title"`
 	LogoUrl        string    `gorm:"logo_url"`
-	Description    string    `gorm:"description"`
-	Trade          string    `gorm:"trade"`
-	Address        string    `gorm:"address"`
+	Industry       string    `gorm:"industry"`
+	FoundedYear    string    `gorm:"founded_time"`
 	AddressArea    string    `gorm:"address_area"`
-	Website        string    `gorm:"website"`
-	Contact        string    `gorm:"contact"`
-	FoundedTime    time.Time `gorm:"founded_time"`
 	CreateTime     time.Time `gorm:"create_time"`
 	FinancingRound string    `gorm:"financing_round"`
+	AppCount       int       `gorm:"app_count"`
+	WebsiteCount   int       `gorm:"website_count"`
+	DownloadCount  int64     `gorm:"download_count"`
 }
 
 func (dev DeveloperDao) TableName() string {
 	return "developers"
 }
 
-func (dev DeveloperDao) FindById(id int64) (*DeveloperDao, error) {
+func (dev DeveloperDao) FindById(id string) (*DeveloperDao, error) {
 	var appItem DeveloperDao
 	err := db.Where("id=?", id).Take(&appItem).Error
 	if err != nil {

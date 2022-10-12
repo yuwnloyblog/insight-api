@@ -28,16 +28,16 @@ func CatchSdks() {
 					c = len(data.Data.Services)
 					for _, sdk := range data.Data.Services {
 						sdkDao.Create(dbs.SdkDao{
-							ID:                    sdk.Uid,
-							Name:                  sdk.Name,
-							Platforms:             strings.Join(sdk.Platforms, ","),
-							Category:              sdk.Category,
-							DeveloperName:         sdk.PublisherName,
-							DeveloperId:           sdk.PublisherUid,
-							LogoUrl:               sdk.LogoUrl,
-							InstalledAppCount:     sdk.InstalledProductCount,
-							DeveloperCount:        sdk.PublisherCount,
-							InstalledWebsiteCount: sdk.InstalledWebsiteCount,
+							ID:             sdk.Uid,
+							Name:           sdk.Name,
+							Platforms:      strings.Join(sdk.Platforms, ","),
+							Category:       sdk.Category,
+							DeveloperName:  sdk.PublisherName,
+							DeveloperId:    sdk.PublisherUid,
+							LogoUrl:        sdk.LogoUrl,
+							AppCount:       sdk.InstalledProductCount,
+							DeveloperCount: sdk.PublisherCount,
+							WebsiteCount:   sdk.InstalledWebsiteCount,
 						})
 					}
 					fmt.Println("page:", index, "count:", c)
@@ -73,4 +73,11 @@ type Sdk struct {
 	InstalledProductCount int      `json:"installedProductCount"`
 	PublisherCount        int      `json:"publisherCount"`
 	InstalledWebsiteCount int      `json:"installedWebsiteCount"`
+}
+
+type Pagination struct {
+	Page     int `json:"page"`
+	PageSize int `json:"pageSize"`
+	Total    int `json:"total"`
+	NextPage int `json:"nextPage"`
 }

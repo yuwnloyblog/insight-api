@@ -18,22 +18,17 @@ func RegisterOrLogin(user User) (string, error) {
 		if err == gorm.ErrRecordNotFound {
 			//入库
 			dbId, err = userDao.Create(dbs.UserDao{
-				Name:       "",
+				NickName:   user.NickName,
+				Avator:     user.Avator,
 				WxUnionId:  user.WxUnionId,
 				CreateDate: time.Now(),
 				Status:     0,
 			})
 			if err != nil {
-				return "", &CommonError{
-					Code:     10100,
-					ErrorMsg: err.Error(),
-				}
+				return "", GetError(ErrorCode_UserDbInsertFail)
 			}
 		} else {
-			return "", &CommonError{
-				Code:     10100,
-				ErrorMsg: err.Error(),
-			}
+			return "", GetError(ErrorCode_UserDbReadFail)
 		}
 	} else {
 		dbId = userdb.ID
@@ -42,10 +37,7 @@ func RegisterOrLogin(user User) (string, error) {
 		idStr, _ := utils.Encode(userdb.ID)
 		return GetToken(idStr), nil
 	} else {
-		return "", &CommonError{
-			Code:     10101,
-			ErrorMsg: "no user id",
-		}
+		return "", GetError(ErrorCode_UserIdIs0)
 	}
 }
 

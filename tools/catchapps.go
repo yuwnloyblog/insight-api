@@ -111,3 +111,13 @@ type Product struct {
 	CloudServiceUids      []string   `json:"cloudServiceUIDs"`
 	CloudServiceProviders []string   `json:"cloudServiceProviders"`
 }
+
+func ParseUid(uid string) (channel, platform, bundleId string) {
+	arr := strings.Split(uid, ":")
+	if len(arr) == 3 {
+		channel = arr[0]
+		platform = arr[1]
+		bundleId = arr[2]
+	}
+	return
+}

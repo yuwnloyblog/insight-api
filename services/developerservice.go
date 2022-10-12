@@ -21,12 +21,11 @@ func QueryDevelopers(keyword string, startStr string, count int) *Developers {
 		}
 		developers.Items = make([]*Developer, 0)
 		for _, developerdb := range developerdbs {
-			isStr, _ := utils.Encode(developerdb.ID)
 			developers.Items = append(developers.Items, &Developer{
-				Id:             isStr,
+				Id:             developerdb.ID,
 				Title:          developerdb.Title,
-				Trade:          developerdb.Trade,
-				FoundedTime:    developerdb.FoundedTime.String(),
+				Trade:          developerdb.Industry,
+				FoundedTime:    developerdb.FoundedYear,
 				AddressArea:    developerdb.AddressArea,
 				FinancingRound: developerdb.FinancingRound,
 				LogoUrl:        developerdb.LogoUrl,
@@ -36,16 +35,15 @@ func QueryDevelopers(keyword string, startStr string, count int) *Developers {
 	return developers
 }
 
-func GetDeveloperById(id int64) *Developer {
+func GetDeveloperById(id string) *Developer {
 	developerDao := dbs.DeveloperDao{}
 	developerdb, err := developerDao.FindById(id)
 	if err == nil {
-		idStr, _ := utils.Encode(developerdb.ID)
 		return &Developer{
-			Id:             idStr,
+			Id:             developerdb.ID,
 			Title:          developerdb.Title,
-			Trade:          developerdb.Trade,
-			FoundedTime:    developerdb.FoundedTime.String(),
+			Trade:          developerdb.Industry,
+			FoundedTime:    developerdb.FoundedYear,
 			AddressArea:    developerdb.AddressArea,
 			FinancingRound: developerdb.FinancingRound,
 			LogoUrl:        developerdb.LogoUrl,
@@ -55,9 +53,5 @@ func GetDeveloperById(id int64) *Developer {
 }
 
 func GetDeveloperByIdStr(idStr string) *Developer {
-	id, err := utils.Decode(idStr)
-	if err == nil {
-		return GetDeveloperById(id)
-	}
-	return nil
+	return GetDeveloperById(idStr)
 }

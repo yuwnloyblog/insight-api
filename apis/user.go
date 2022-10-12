@@ -23,4 +23,5 @@ func HandleToken(ctx *gin.Context) {
 	} else {
 		ctx.Set("uid", uid)
 	}
+	ctx.Writer.Header().Set("X-Owl", "owllow")
 }

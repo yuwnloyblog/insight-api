@@ -4,18 +4,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/dbs"
+	"strconv"
 	"strings"
 	"time"
 )
 
 var header map[string]string
 
-func init() {
-	header := map[string]string{}
-	header["cookie"] = `_ga=GA1.1.1684076364.1665304345; fork_session=3f66ad476497a91d; mp_f39218c184e602888e26ea53b00435dd_mixpanel={"distinct_id": "yuhongda0315@163.com","$device_id": "183bccf8d0e1b17-01c76202b5b0f9-1a525635-1d73c0-183bccf8d0f17e9","$initial_referrer": "$direct","$initial_referring_domain": "$direct","g_version": "1.20.0","$user_id": "yuhongda0315@163.com","g_team_name": "grtd"}; _ga_G812B88X1Y=GS1.1.1665377700.5.1.1665378795.0.0.0; intercom-session-d1key3b8=Ky9BUmxneTZoOXNHck1DZjhwVksyNVZ0bHlFWTgyUXVOUlAvRTNzVmZLcEtZa2xPUTZZcnJMMVphTVZBYnZUaC0tZld0ME81cWdnZWJ5SmtjcjdsUlM0QT09--68f67736b41940e646a3b205874e449262fa030c`
-}
-
 func CatchDevelopers() {
+	header := map[string]string{}
+	header["cookie"] = `_ga_MF5DDQ4TF9=GS1.1.1665500668.1.0.1665500668.0.0.0; _ga=GA1.1.390781912.1665500669; fork_session=574227d113785cce; mp_f39218c184e602888e26ea53b00435dd_mixpanel={"distinct_id": "yuhongda0315@163.com","$device_id": "183c7f26f01ab7-0c84907d721d63-19525635-13c680-183c7f26f02c6e","$initial_referrer": "$direct","$initial_referring_domain": "$direct","$user_id": "yuhongda0315@163.com","g_team_name": "于洪达的个人团队"}; intercom-session-d1key3b8=aUNzektsaTBwSEhrczZOWm9PR2lQdzloMURSNzhGbmp6VWd6OVdHY1F5UEhTdWJPOXhLd2xsZnFmUTFJaGlJMi0taDdoTjh2bjgycmVROUVLQ0pSakxPUT09--fdb3b4eb2b924d5ae4ebe35332c0bbaa6d0f8882; _ga_G812B88X1Y=GS1.1.1665506619.2.1.1665506901.0.0.0`
+	header["content-type"] = "application/json"
+	header["content-length"] = "39"
 	index := 1
 	devDao := dbs.DeveloperDao{}
 	for {
@@ -26,18 +26,21 @@ func CatchDevelopers() {
 			err = json.Unmarshal([]byte(ret), &data)
 			if err == nil {
 				c := 0
-				fmt.Println("len:", len(data.Data.Publishers), ret)
 				if len(data.Data.Publishers) > 0 {
 					c = len(data.Data.Publishers)
 					for _, pub := range data.Data.Publishers {
 						devDao.Create(dbs.DeveloperDao{
+							ID:             pub.Uid,
 							Title:          pub.Title,
-							Trade:          pub.Industry,
+							Industry:       pub.Industry,
 							LogoUrl:        pub.LogoUrl,
+							FoundedYear:    strconv.Itoa(pub.FoundedYear),
 							AddressArea:    strings.Join(pub.AddressArea, "-"),
-							FoundedTime:    foundYearFormat(pub.FoundedYear),
 							FinancingRound: pub.FinancingRound,
 							CreateTime:     time.Now(),
+							AppCount:       pub.ProductCount,
+							WebsiteCount:   pub.WebsiteCount,
+							DownloadCount:  pub.DownloadCount,
 						})
 					}
 					fmt.Println("page:", index, "count:", c)
@@ -49,17 +52,8 @@ func CatchDevelopers() {
 			fmt.Println("http err:", err)
 		}
 		index++
-		time.Sleep(5 * time.Second)
+		time.Sleep(1 * time.Second)
 	}
-}
-
-func foundYearFormat(year int) time.Time {
-	if year <= 0 {
-		year = 1970
-	}
-	format := "2006-01-02"
-	t, _ := time.Parse(format, fmt.Sprintf("%d-01-01", year))
-	return t
 }
 
 type DeveloperCommonData struct {
@@ -78,4 +72,12 @@ type Publisher struct {
 	FoundedYear    int      `json:"foundedYear"`
 	AddressArea    []string `json:"addressArea"`
 	FinancingRound string   `json:"financingRound"`
+	ProductCount   int      `json:"productCount"`
+	WebsiteCount   int      `json:"websiteCount"`
+	DownloadCount  int64    `json:"downloadCount"`
+
+	InstalledPublisherCount int `json:"installedPublisherCount"`
+	ServicesCount           int `json:"servicesCount"`
+	InstalledProductCount   int `json:"installedProductCount"`
+	InstalledWebsiteCount   int `json:"installedWebsiteCount"`
 }

@@ -2,24 +2,27 @@ package main
 
 import (
 	"insight-api/apis"
-	"insight-api/tools"
+	"insight-api/configures"
+	"insight-api/dbs"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// configures.InitConfigures()
-	// dbs.InitMysql()
+	configures.InitConfigures()
+	dbs.InitMysql()
 
-	//router()
-
-	//tools.CatchDevelopers()
-	tools.CatchSdks()
+	router()
 }
 
 func router() {
 	r := gin.Default()
-	r.Group("/", apis.HandleToken)
+	r.Use(apis.HandleToken)
+	// r.Group("/", apis.HandleToken)
+	r.GET("/", func(ctx *gin.Context) {
+		ctx.String(http.StatusOK, "hello")
+	})
 	r.GET("/homeinfo", apis.HomeInfo)
 	r.GET("/applist", apis.AppList)
 	r.GET("/appinfo", apis.AppInfo)

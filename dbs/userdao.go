@@ -4,13 +4,27 @@ import (
 	"time"
 )
 
+type UserStatus int
+
+const (
+	UserStatus_FORBIDDEN  = -1
+	UserStatus_NORMAL     = 0
+	UserStatus_MONTH_PAY  = 101
+	UserStatus_SEASON_PAY = 102
+	UserStatus_YEAR_PAY   = 103
+)
+
 type UserDao struct {
 	ID         int64     `gorm:"primary_key"`
-	Name       string    `gorm:"name"`
-	Phone      string    `gorm:"phone"`
-	WxUnionId  string    `gorm:"wx_unionid"`
-	CreateDate time.Time `gorm:"create_time"`
+	Account    string    `gorm:"account"`
+	Password   string    `gorm:"password"`
+	NickName   string    `gorm:"nack_name"`
 	Status     int       `gorm:"status"`
+	Phone      string    `gorm:"phone"`
+	Email      string    `gorm:"email"`
+	WxUnionId  string    `gorm:"wx_unionid"`
+	Avator     string    `gorm:"avator"`
+	CreateDate time.Time `gorm:"create_time"`
 }
 
 func (user UserDao) TableName() string {

@@ -27,7 +27,7 @@ type ImConfig struct {
 	Wx struct {
 		AppId  string `yaml:"appid"`
 		Secret string `yaml:"secret"`
-	}
+	} `yaml:"wx"`
 }
 
 var Config ImConfig

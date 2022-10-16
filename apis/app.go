@@ -10,6 +10,7 @@ import (
 
 func AppList(ctx *gin.Context) {
 	startStr := ctx.Query("start")
+	devId := ctx.Query("dev_id")
 
 	countStr := ctx.Query("count")
 	count, err := utils.ParseInt(countStr)
@@ -22,7 +23,7 @@ func AppList(ctx *gin.Context) {
 	}
 	keyword := ctx.Query("keyword")
 
-	ctx.JSON(http.StatusOK, services.QueryApps(keyword, startStr, count))
+	ctx.JSON(http.StatusOK, services.QueryApps(keyword, startStr, devId, count))
 }
 
 func AppInfo(ctx *gin.Context) {

@@ -4,6 +4,7 @@ import (
 	"insight-api/apis"
 	"insight-api/configures"
 	"insight-api/dbs"
+	"insight-api/logs"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,9 +12,12 @@ import (
 
 func main() {
 	configures.InitConfigures()
+	logs.InitLogs()
 	dbs.InitMysql()
 
 	router()
+	// tools.CheckDev()
+	// tools.PureDev()
 }
 
 func router() {

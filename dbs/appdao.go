@@ -46,15 +46,22 @@ func (app AppDao) FindById(id int64) (*AppDao, error) {
 	return &appItem, nil
 }
 
-func (app AppDao) QueryList(keyword string, start int64, count int) ([]*AppDao, error) {
+func (app AppDao) QueryList(keyword, devId string, start int64, count int) ([]*AppDao, error) {
 	var items []*AppDao
+
+	whereStr := "id < ?"
+	args := []interface{}{}
+	args = append(args, start)
 	if keyword != "" {
-		err := db.Where("name like '%?%' id < ?", keyword, start).Order("id desc").Limit(count).Find(&items).Error
-		return items, err
-	} else {
-		err := db.Where("id < ?", start).Order("id desc").Limit(count).Find(&items).Error
-		return items, err
+		whereStr = whereStr + " AND title like ?"
+		args = append(args, "%"+keyword+"%")
 	}
+	if devId != "" {
+		whereStr = whereStr + " AND developer_id_str = ?"
+		args = append(args, devId)
+	}
+	err := db.Where(whereStr, args...).Order("id desc").Limit(count).Find(&items).Error
+	return items, err
 
 }
 

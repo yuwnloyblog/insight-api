@@ -9,5 +9,5 @@ mysql:
   name: insight_db
 
 wx:
-  appid: APPID
-  secret: SECRET
+  appid: wx8075ba28a91336ff
+  secret: b28d61164d93f5a29529aa9e52f79087

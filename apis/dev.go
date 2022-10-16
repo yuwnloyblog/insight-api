@@ -27,6 +27,6 @@ func DeveloperList(ctx *gin.Context) {
 
 func DeveloperInfo(ctx *gin.Context) {
 	devIdStr := ctx.Query("id")
-	devloper := services.GetDeveloperByIdStr(devIdStr)
+	devloper := services.GetDeveloperById(devIdStr, "")
 	ctx.JSON(http.StatusOK, devloper)
 }

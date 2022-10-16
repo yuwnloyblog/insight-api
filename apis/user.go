@@ -2,26 +2,44 @@ package apis
 
 import (
 	"insight-api/services"
+	"insight-api/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Login(ctx *gin.Context) {
+func UserInfoUpdate(ctx *gin.Context) {
+	avator := ctx.PostForm("avator")
+	nickname := ctx.PostForm("nickname")
 
+	uid := ctx.GetInt64("uid")
+	if uid <= 0 {
+		ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_UidStrError))
+		return
+	}
+	err := services.UpdateUserInfo(avator, nickname, uid)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_UserDbUpdateFail))
+		return
+	}
+	ctx.JSON(http.StatusOK, services.GetSuccess())
 }
 
-func HandleToken(ctx *gin.Context) {
-	token := ctx.Request.Header.Get("X-Token")
-	uid, _, err := services.ParseToken(token)
-	if err != nil {
-		// ctx.JSON(http.StatusUnauthorized, &services.CommonError{
-		// 	Code:     10002,
-		// 	ErrorMsg: "not login",
-		// })
-		// ctx.Abort()
-		// return
-	} else {
-		ctx.Set("uid", uid)
+func GetUserInf(ctx *gin.Context) {
+	idStr := ctx.Query("id")
+	if idStr == "" {
+		ctx.JSON(http.StatusBadRequest, services.GetError(services.ErrorCode_NoUid))
+		return
 	}
-	ctx.Writer.Header().Set("X-Owl", "owllow")
+	id, err := utils.Decode(idStr)
+	if err != nil || id <= 0 {
+		ctx.JSON(http.StatusBadRequest, services.GetError(services.ErrorCode_UidStrError))
+		return
+	}
+	user, err := services.GetUserInfo(id)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_UserDbReadFail))
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
 }

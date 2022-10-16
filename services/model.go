@@ -4,7 +4,7 @@ type HomeInfo struct {
 	TotalAppCount       int            `json:"app_count"`       //总应用数量
 	TotalDeveloperCount int            `json:"developer_count"` //总开发者数量
 	Sotre               map[string]int `json:"store"`
-	History             map[string]int `json:"history"`
+	Platform            map[string]int `json:"platform"`
 }
 
 type Apps struct {
@@ -40,21 +40,22 @@ type Developers struct {
 type Developer struct {
 	Id             string `json:"id"`
 	Title          string `json:"title"`
-	Trade          string `json:"trade,omitempty"`
-	FoundedTime    string `json:"founded_time,omitempty"`
-	AddressArea    string `json:"address_area,omitempty"`
-	FinancingRound string `json:"financing_round,omitempty"`
-	LogoUrl        string `json:"logo_url,omitempty"`
+	Trade          string `json:"trade"`
+	FoundedTime    string `json:"founded_time"`
+	AddressArea    string `json:"address_area"`
+	FinancingRound string `json:"financing_round"`
+	LogoUrl        string `json:"logo_url"`
+	AppCount       int    `json:"app_count"`
 }
 type Sdks struct {
 	Items []*SdkInfo `json:"items"`
 }
 type SdkInfo struct {
 	Id        string     `json:"id"`
-	Name      string     `json:"name,omitempty"`
+	Name      string     `json:"name"`
 	Platforms string     `json:"platform"`
 	Category  string     `json:"category"`
-	Developer *Developer `json:"devloper,omitempty"`
+	Developer *Developer `json:"devloper"`
 	LogoUrl   string     `json:"logoUrl"`
 }
 
@@ -63,15 +64,16 @@ type WxLoginResp struct {
 	SessionKey string `json:"session_key"`
 	UnionId    string `json:"unionid"`
 	ErrorCode  int    `json:"errcode"`
-	ErrorMsg   string `json:"errmsg,omitempty"`
+	ErrorMsg   string `json:"errmsg"`
 }
 
 type User struct {
-	Id        string `json:"id"`
-	NickName  string `json:"nick_name"`
-	WxUnionId string `json:"wx_unionid"`
-	Phone     string `json:"phone"`
-	Avator    string `json:"avator"`
+	Id       string `json:"id"`
+	NickName string `json:"nick_name"`
+	WxOpenid string `json:"wx_openid"`
+	Phone    string `json:"phone"`
+	Avator   string `json:"avator"`
+	Status   int    `json:"status"`
 }
 
 type LoginUserResp struct {

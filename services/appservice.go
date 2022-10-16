@@ -6,13 +6,13 @@ import (
 	"math"
 )
 
-func QueryApps(keyword string, startStr string, count int) *Apps {
+func QueryApps(keyword, startStr, devId string, count int) *Apps {
 	appDao := dbs.AppDao{}
 	start, err := utils.Decode(startStr)
 	if err != nil {
 		start = math.MaxInt32
 	}
-	appTables, err := appDao.QueryList(keyword, start, count)
+	appTables, err := appDao.QueryList(keyword, devId, start, count)
 	apps := &Apps{}
 	if err == nil {
 		l := len(appTables)
@@ -31,7 +31,7 @@ func QueryApps(keyword string, startStr string, count int) *Apps {
 				Website:       appTable.Website,
 				Description:   appTable.Description,
 				ReleaseDate:   appTable.ReleaseDate.UnixMilli(),
-				Developer:     GetDeveloperById(appTable.DeveloperIdStr),
+				Developer:     GetDeveloperById(appTable.DeveloperIdStr, appTable.DeveloperTitle),
 				Size:          appTable.Size,
 				CreateTime:    appTable.CreateTime.UnixMilli(),
 				LogoUrl:       appTable.LogoUrl,
@@ -58,7 +58,7 @@ func GetAppById(appId int64) *App {
 			Website:       appdb.Website,
 			Description:   appdb.Description,
 			ReleaseDate:   appdb.ReleaseDate.UnixMilli(),
-			Developer:     GetDeveloperById(appdb.DeveloperIdStr),
+			Developer:     GetDeveloperById(appdb.DeveloperIdStr, appdb.DeveloperTitle),
 			Size:          appdb.Size,
 			CreateTime:    appdb.CreateTime.UnixMilli(),
 			LogoUrl:       appdb.LogoUrl,

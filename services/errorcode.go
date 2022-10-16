@@ -5,6 +5,7 @@ import "fmt"
 type ErrorCode int
 
 const (
+	ErrorCode_Success = 0
 	ErrorCode_Unknown = 10000
 
 	//100xx 参数校验，登录和注册相关
@@ -12,6 +13,9 @@ const (
 	ErrorCode_WxLoginFail    = 10002
 	ErrorCode_UserIdIs0      = 10003
 	ErrorCode_WxLoginRespErr = 10004
+	ErrorCode_TokenErr       = 10005
+	ErrorCode_UidStrError    = 10006
+	ErrorCode_NoUid          = 10007
 
 	//101xx 用户，app，dev等数据相关
 	ErrorCode_UserDbReadFail   = 10100
@@ -21,6 +25,7 @@ const (
 )
 
 var errMsgMap map[ErrorCode]string = map[ErrorCode]string{
+	ErrorCode_Success: "success",
 	ErrorCode_Unknown: "unknown error",
 
 	ErrorCode_NoWxJsCode:  "js_code is required",
@@ -44,7 +49,14 @@ func GetError(code ErrorCode) error {
 		}
 	}
 	return &CommonError{
-		Code:     int(ErrorCode_Unknown),
+		Code:     int(code),
 		ErrorMsg: "unknown error",
+	}
+}
+
+func GetSuccess() interface{} {
+	return &CommonError{
+		Code:     int(ErrorCode_Success),
+		ErrorMsg: "success",
 	}
 }

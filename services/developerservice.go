@@ -2,17 +2,11 @@ package services
 
 import (
 	"insight-api/dbs"
-	"insight-api/utils"
-	"math"
 )
 
 func QueryDevelopers(keyword string, startStr string, count int) *Developers {
 	developerDao := dbs.DeveloperDao{}
-	start, err := utils.Decode(startStr)
-	if err != nil {
-		start = math.MaxInt32
-	}
-	developerdbs, err := developerDao.QueryList(keyword, start, count)
+	developerdbs, err := developerDao.QueryList(keyword, startStr, count)
 	developers := &Developers{}
 	if err == nil {
 		l := len(developerdbs)
@@ -29,29 +23,27 @@ func QueryDevelopers(keyword string, startStr string, count int) *Developers {
 				AddressArea:    developerdb.AddressArea,
 				FinancingRound: developerdb.FinancingRound,
 				LogoUrl:        developerdb.LogoUrl,
+				AppCount:       developerdb.AppCount,
 			})
 		}
 	}
 	return developers
 }
 
-func GetDeveloperById(id string) *Developer {
+func GetDeveloperById(id, title string) *Developer {
 	developerDao := dbs.DeveloperDao{}
+	dev := &Developer{
+		Id:    id,
+		Title: title,
+	}
 	developerdb, err := developerDao.FindById(id)
 	if err == nil {
-		return &Developer{
-			Id:             developerdb.ID,
-			Title:          developerdb.Title,
-			Trade:          developerdb.Industry,
-			FoundedTime:    developerdb.FoundedYear,
-			AddressArea:    developerdb.AddressArea,
-			FinancingRound: developerdb.FinancingRound,
-			LogoUrl:        developerdb.LogoUrl,
-		}
+		dev.Trade = developerdb.Industry
+		dev.FoundedTime = developerdb.FoundedYear
+		dev.AddressArea = developerdb.AddressArea
+		dev.FinancingRound = developerdb.FinancingRound
+		dev.LogoUrl = developerdb.LogoUrl
+		dev.AppCount = developerdb.AppCount
 	}
-	return nil
-}
-
-func GetDeveloperByIdStr(idStr string) *Developer {
-	return GetDeveloperById(idStr)
+	return dev
 }

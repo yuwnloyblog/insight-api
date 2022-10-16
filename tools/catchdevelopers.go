@@ -69,7 +69,11 @@ type Publisher struct {
 	Title          string   `json:"title"`
 	LogoUrl        string   `json:"logoURL"`
 	Industry       string   `json:"industry"`
-	FoundedYear    int      `json:"foundedYear"`
+	FoundedYear    int      `json:"foundedDate"`
+	Address        string   `json:"address"`
+	Website        string   `json:"website"`
+	Email          string   `json:"email"`
+	Description    string   `json:"description"`
 	AddressArea    []string `json:"addressArea"`
 	FinancingRound string   `json:"financingRound"`
 	ProductCount   int      `json:"productCount"`

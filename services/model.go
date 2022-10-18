@@ -21,7 +21,7 @@ type App struct {
 	Website       string     `json:"website"`
 	Description   string     `json:"desc"`
 	ReleaseDate   int64      `json:"release_date"`
-	Developer     *Developer `json:"developer,omitempty"`
+	Developer     *Developer `json:"developer"`
 	Size          int64      `json:"size"`
 	CreateTime    int64      `json:"create_time"`
 	LogoUrl       string     `json:"logo_url"`

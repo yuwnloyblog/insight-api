@@ -43,6 +43,7 @@ func router() {
 	//user
 	r.POST("/user/update", apis.UserInfoUpdate)
 	r.GET("/user/info", apis.GetUserInfo)
+	r.POST("/user/update_status", apis.UpdatePayStatus)
 
 	r.POST("/wx_login", apis.WxLogin)
 	r.POST("/user/wx_login", apis.WxLogin)

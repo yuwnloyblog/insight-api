@@ -96,3 +96,8 @@ func (user UserDao) Updates(u UserDao) error {
 	}
 	return nil
 }
+func (user UserDao) UpdateStatus(uid int64, status int) error {
+	upd := map[string]interface{}{}
+	upd["status"] = status
+	return db.Model(&user).Where("id=?", uid).Update(upd).Error
+}

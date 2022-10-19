@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/configures"
+	"insight-api/dbs"
 	"insight-api/services"
 	"insight-api/tools"
 	"insight-api/utils"
@@ -106,6 +107,14 @@ func checkLogin(ctx *gin.Context) bool {
 	uid := ctx.GetInt64("uid")
 	if uid <= 0 {
 		ctx.JSON(http.StatusUnauthorized, services.GetError(services.ErrorCode_NotLogin))
+		return false
+	}
+	return true
+}
+func checkPay(ctx *gin.Context) bool {
+	status := ctx.GetInt("status")
+	if status != dbs.UserStatus_YEAR_PAY && status != dbs.UserStatus_HALFYEAR_PAY && status != dbs.UserStatus_SEASON_PAY && status != dbs.UserStatus_MONTH_PAY {
+		ctx.JSON(http.StatusForbidden, services.GetError(services.ErrorCode_NeedPay))
 		return false
 	}
 	return true

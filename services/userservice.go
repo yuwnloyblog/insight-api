@@ -43,6 +43,11 @@ func RegisterOrLogin(user User) (string, *User, error) {
 	}
 }
 
+func UpdateUserStatus(uid int64, status int) error {
+	userDao := dbs.UserDao{}
+	return userDao.UpdateStatus(uid, status)
+}
+
 func UpdateUserInfo(uid int64, user User) error {
 	userDao := dbs.UserDao{}
 	err := userDao.Updates(dbs.UserDao{
@@ -67,6 +72,11 @@ func GetUserInfByCache(uid int64) (*User, error) {
 		utils.CachePut(key, user)
 		return user, nil
 	}
+}
+
+func RemoveUserFromCache(uid int64) bool {
+	key := fmt.Sprintf("user_%d", uid)
+	return utils.CacheRemove(key)
 }
 
 func GetUserInfo(uid int64) (*User, error) {

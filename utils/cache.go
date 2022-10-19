@@ -17,3 +17,7 @@ func CachePut(key, value interface{}) {
 func CacheGet(key interface{}) (interface{}, bool) {
 	return lru.Get(key)
 }
+
+func CacheRemove(key interface{}) bool {
+	return lru.Remove(key)
+}

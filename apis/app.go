@@ -27,6 +27,10 @@ func AppList(ctx *gin.Context) {
 		return
 	}
 
+	if devId != "" && !checkPay(ctx) {
+		return
+	}
+
 	ctx.JSON(http.StatusOK, services.QueryApps(keyword, startStr, devId, count))
 }
 

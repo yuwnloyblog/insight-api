@@ -4,6 +4,7 @@ import (
 	"insight-api/services"
 	"insight-api/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -47,4 +48,28 @@ func GetUserInfo(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
+}
+
+func UpdatePayStatus(ctx *gin.Context) {
+	statusStr := ctx.PostForm("pay_status")
+	if statusStr != "" {
+		status, err := strconv.Atoi(statusStr)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, services.GetError(services.ErrorCode_UidStrError))
+			return
+		}
+		uid := ctx.GetInt64("uid")
+		if uid > 0 {
+			err = services.UpdateUserStatus(uid, status)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_UserDbUpdateFail))
+				return
+			}
+		} else {
+			ctx.JSON(http.StatusUnauthorized, services.GetError(services.ErrorCode_NotLogin))
+			return
+		}
+		ctx.JSON(http.StatusOK, services.GetSuccess())
+		services.RemoveUserFromCache(uid)
+	}
 }

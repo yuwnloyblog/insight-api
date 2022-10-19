@@ -1,7 +1,6 @@
 package apis
 
 import (
-	"insight-api/dbs"
 	"insight-api/services"
 	"net/http"
 
@@ -15,9 +14,7 @@ func SdkList(ctx *gin.Context) {
 		return
 	}
 
-	status := ctx.GetInt("status")
-	if status != dbs.UserStatus_YEAR_PAY && status != dbs.UserStatus_HALFYEAR_PAY && status != dbs.UserStatus_SEASON_PAY && status != dbs.UserStatus_MONTH_PAY {
-		ctx.JSON(http.StatusForbidden, services.GetError(services.ErrorCode_NeedPay))
+	if !checkPay(ctx) {
 		return
 	}
 

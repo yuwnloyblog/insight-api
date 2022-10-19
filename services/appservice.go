@@ -66,7 +66,7 @@ func GetAppById(appId int64) *App {
 			LatestVersion: appdb.LatestVersion,
 			CountryCode:   appdb.CountryCode,
 
-			Sdks: QuerySdksByAppId(appId),
+			//Sdks: QuerySdksByAppId(appId),
 		}
 	}
 	return nil

@@ -23,10 +23,17 @@ func AppList(ctx *gin.Context) {
 	}
 	keyword := ctx.Query("keyword")
 
+	if startStr != "" && !checkLogin(ctx) {
+		return
+	}
+
 	ctx.JSON(http.StatusOK, services.QueryApps(keyword, startStr, devId, count))
 }
 
 func AppInfo(ctx *gin.Context) {
+	if !checkLogin(ctx) {
+		return
+	}
 	appIdStr := ctx.Query("id")
 	app := services.GetAppByIdStr(appIdStr)
 	ctx.JSON(http.StatusOK, app)

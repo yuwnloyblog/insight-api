@@ -16,6 +16,9 @@ const (
 	ErrorCode_TokenErr       = 10005
 	ErrorCode_UidStrError    = 10006
 	ErrorCode_NoUid          = 10007
+	ErrorCode_NotLogin       = 10008
+	ErrorCode_TokenOutDate   = 10009
+	ErrorCode_NeedPay        = 10010
 
 	//101xx 用户，app，dev等数据相关
 	ErrorCode_UserDbReadFail   = 10100
@@ -28,8 +31,11 @@ var errMsgMap map[ErrorCode]string = map[ErrorCode]string{
 	ErrorCode_Success: "success",
 	ErrorCode_Unknown: "unknown error",
 
-	ErrorCode_NoWxJsCode:  "js_code is required",
-	ErrorCode_WxLoginFail: "wx login failed",
+	ErrorCode_NoWxJsCode:   "js_code is required",
+	ErrorCode_WxLoginFail:  "wx login failed",
+	ErrorCode_NotLogin:     "not login",
+	ErrorCode_TokenOutDate: "session is out of date.",
+	ErrorCode_NeedPay:      "need pay.",
 }
 
 type CommonError struct {

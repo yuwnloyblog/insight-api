@@ -1,13 +1,10 @@
 package main
 
 import (
-	"encoding/hex"
-	"fmt"
 	"insight-api/apis"
 	"insight-api/configures"
 	"insight-api/dbs"
 	"insight-api/logs"
-	"insight-api/tools"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,21 +15,7 @@ func main() {
 	logs.InitLogs()
 	dbs.InitMysql()
 
-	//router()
-	// tools.CheckDev()
-	// tools.PureDev()
-	// name, err := tools.DownloadPicture("https://huawei-icon.oss-cn-hangzhou.aliyuncs.com/application/icon144/70cef5dad83849f8ba75ef7031f12c37.png")
-	// fmt.Println(name, err)
-
-	//tools.QiniuUpload("")
-	//tools.DeleteFile("70cef5dad83849f8ba75ef7031f12c37.png")
-	ret, err := tools.QiniuFetch("https://file.lwoowl.cn/devs/qiniu-x.png")
-	fmt.Println(ret, err)
-
-	dst := make([]byte, 16)
-	src := []byte("11aabbccddeeff223344556677889900")
-	r, e := hex.Decode(dst, src)
-	fmt.Println(r, e, dst)
+	router()
 }
 
 func router() {
@@ -43,13 +26,26 @@ func router() {
 		ctx.String(http.StatusOK, "hello")
 	})
 	r.GET("/homeinfo", apis.HomeInfo)
+
 	r.GET("/applist", apis.AppList)
+	r.GET("/app/list", apis.AppList)
 	r.GET("/appinfo", apis.AppInfo)
+	r.GET("/app/info", apis.AppInfo)
+
 	r.GET("/devlist", apis.DeveloperList)
+	r.GET("/dev/list", apis.DeveloperList)
 	r.GET("/devinfo", apis.DeveloperInfo)
+	r.GET("/dev/info", apis.DeveloperInfo)
+
 	r.GET("/sdklist", apis.SdkList)
+	r.GET("/sdk/list", apis.SdkList)
+
+	//user
+	r.POST("/user/update", apis.UserInfoUpdate)
+	r.GET("/user/info", apis.GetUserInfo)
 
 	r.POST("/wx_login", apis.WxLogin)
+	r.POST("/user/wx_login", apis.WxLogin)
 
 	r.Run(":8080")
 }

@@ -9,15 +9,20 @@ import (
 )
 
 func UserInfoUpdate(ctx *gin.Context) {
-	avator := ctx.PostForm("avator")
-	nickname := ctx.PostForm("nickname")
+	avatar := ctx.PostForm("avatar")
+	nickname := ctx.PostForm("nick_name")
+	phone := ctx.PostForm("phone")
 
 	uid := ctx.GetInt64("uid")
 	if uid <= 0 {
 		ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_UidStrError))
 		return
 	}
-	err := services.UpdateUserInfo(avator, nickname, uid)
+	err := services.UpdateUserInfo(uid, services.User{
+		NickName: nickname,
+		Avatar:   avatar,
+		Phone:    phone,
+	})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_UserDbUpdateFail))
 		return
@@ -25,7 +30,7 @@ func UserInfoUpdate(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, services.GetSuccess())
 }
 
-func GetUserInf(ctx *gin.Context) {
+func GetUserInfo(ctx *gin.Context) {
 	idStr := ctx.Query("id")
 	if idStr == "" {
 		ctx.JSON(http.StatusBadRequest, services.GetError(services.ErrorCode_NoUid))

@@ -9,38 +9,49 @@ import (
 	"time"
 )
 
-func RegisterOrLogin(user User) (string, error) {
+func RegisterOrLogin(user User) (string, *User, error) {
 	userDao := dbs.UserDao{}
+	retUser := &User{}
 	userdb, err := userDao.FindByWxOpenid(user.WxOpenid)
 	var dbId int64
 	if err != nil {
 		//入库
 		dbId, err = userDao.Create(dbs.UserDao{
 			NickName:   user.NickName,
-			Avator:     user.Avator,
+			Avatar:     user.Avatar,
 			WxOpenid:   user.WxOpenid,
 			CreateTime: time.Now(),
 			Status:     0,
 		})
 		if err != nil {
-			return "", GetError(ErrorCode_UserDbInsertFail)
+			return "", nil, GetError(ErrorCode_UserDbInsertFail)
 		}
+		retUser.NickName = user.NickName
+		retUser.Avatar = user.Avatar
+		retUser.Status = 0
 	} else {
 		dbId = userdb.ID
+		retUser.NickName = userdb.NickName
+		retUser.Avatar = userdb.Avatar
+		retUser.Status = userdb.Status
 	}
 	if dbId > 0 {
 		idStr, _ := utils.Encode(dbId)
-		return GetToken(idStr), nil
+		return GetToken(idStr), retUser, nil
 	} else {
-		return "", GetError(ErrorCode_UserIdIs0)
+		return "", nil, GetError(ErrorCode_UserIdIs0)
 	}
 }
 
-func UpdateUserInfo(avator, nickname string, uid int64) error {
-	// userDao := dbs.UserDao{}
-
-	// userDao.Updates()
-	return nil
+func UpdateUserInfo(uid int64, user User) error {
+	userDao := dbs.UserDao{}
+	err := userDao.Updates(dbs.UserDao{
+		ID:       uid,
+		NickName: user.NickName,
+		Phone:    user.Phone,
+		Avatar:   user.Avatar,
+	})
+	return err
 }
 
 func GetUserInfByCache(uid int64) (*User, error) {
@@ -69,7 +80,7 @@ func GetUserInfo(uid int64) (*User, error) {
 		Id:       idStr,
 		NickName: userdb.NickName,
 		Phone:    userdb.Phone,
-		Avator:   userdb.Avator,
+		Avatar:   userdb.Avatar,
 		Status:   userdb.Status,
 		WxOpenid: userdb.WxOpenid,
 	}, nil

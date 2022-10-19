@@ -47,18 +47,21 @@ func WxLogin(ctx *gin.Context) {
 		})
 		return
 	}
-	fmt.Println(print(wxResp))
 	//入库
-	token, err := services.RegisterOrLogin(services.User{
+	token, u, err := services.RegisterOrLogin(services.User{
 		WxOpenid: wxResp.OpenId,
 	})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err)
 		return
 	}
+	ctx.Writer.Header().Set("X-Status", strconv.Itoa(u.Status))
 	ctx.JSON(http.StatusOK, services.LoginUserResp{
-		Token:  token,
-		WxResp: &wxResp,
+		Token:    token,
+		NickName: u.NickName,
+		Avatar:   u.Avatar,
+		Status:   u.Status,
+		WxResp:   &wxResp,
 	})
 }
 
@@ -90,8 +93,20 @@ func HandleToken(ctx *gin.Context) {
 			ctx.Abort()
 			return
 		}
-		ctx.Set("user", user)
+		ctx.Set("uid", uid)
+		ctx.Set("status", user.Status)
+		fmt.Println("uid:", uid, "status:", user.Status)
+
 		ctx.Writer.Header().Set("X-Status", strconv.Itoa(user.Status))
 	}
 	ctx.Writer.Header().Set("X-IsLogined", isLogined)
+}
+
+func checkLogin(ctx *gin.Context) bool {
+	uid := ctx.GetInt64("uid")
+	if uid <= 0 {
+		ctx.JSON(http.StatusUnauthorized, services.GetError(services.ErrorCode_NotLogin))
+		return false
+	}
+	return true
 }

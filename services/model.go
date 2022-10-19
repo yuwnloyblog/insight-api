@@ -72,11 +72,14 @@ type User struct {
 	NickName string `json:"nick_name"`
 	WxOpenid string `json:"wx_openid"`
 	Phone    string `json:"phone"`
-	Avator   string `json:"avator"`
+	Avatar   string `json:"avatar"`
 	Status   int    `json:"status"`
 }
 
 type LoginUserResp struct {
-	Token  string       `json:"token"`
-	WxResp *WxLoginResp `json:"wx_resp"`
+	Token    string       `json:"token"`
+	NickName string       `json:"nick_name"`
+	Avatar   string       `json:"avatar"`
+	Status   int          `json:"status"`
+	WxResp   *WxLoginResp `json:"wx_resp"`
 }

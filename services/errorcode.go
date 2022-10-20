@@ -19,6 +19,9 @@ const (
 	ErrorCode_NotLogin       = 10008
 	ErrorCode_TokenOutDate   = 10009
 	ErrorCode_NeedPay        = 10010
+	ErrorCode_ParamErr       = 10011
+	ErrorCode_PrepayCallErr  = 10012
+	ErrorCode_PrepayParseErr = 10013
 
 	//101xx 用户，app，dev等数据相关
 	ErrorCode_UserDbReadFail   = 10100

@@ -9,7 +9,7 @@ import (
 )
 
 func DeveloperList(ctx *gin.Context) {
-	startStr := ctx.Query("start")
+	pageStr := ctx.Query("page")
 
 	countStr := ctx.Query("count")
 	count, err := utils.ParseInt(countStr)
@@ -20,13 +20,17 @@ func DeveloperList(ctx *gin.Context) {
 			count = 50
 		}
 	}
+	page, err := utils.ParseInt(pageStr)
+	if err != nil || page <= 0 {
+		page = 1
+	}
 	keyword := ctx.Query("keyword")
 
-	if startStr != "" && !checkLogin(ctx) {
+	if page > 1 && !checkLogin(ctx) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, services.QueryDevelopers(keyword, startStr, count))
+	ctx.JSON(http.StatusOK, services.QueryDevelopers(keyword, page, count))
 }
 
 func DeveloperInfo(ctx *gin.Context) {

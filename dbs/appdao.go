@@ -28,7 +28,6 @@ type AppDao struct {
 	Website           string    `gorm:"website"`
 	Description       string    `gorm:"description"`
 	ReleaseDate       time.Time `gorm:"release_date"`
-	DeveloperId       int64     `gorm:"developer_id"`
 	LogoUrl           string    `gorm:"logo_url"`
 	CreateTime        time.Time `gorm:"create_time"`
 }
@@ -95,5 +94,11 @@ func (app AppDao) Create(item AppDao) error {
 func (app AppDao) UpdateLogo(id int64, url string) error {
 	upd := map[string]interface{}{}
 	upd["logo_url"] = url
+	return db.Model(&app).Where("id=?", id).Update(upd).Error
+}
+
+func (app AppDao) UpdateDevIdStr(id int64, idStr string) error {
+	upd := map[string]interface{}{}
+	upd["developer_id_str"] = idStr
 	return db.Model(&app).Where("id=?", id).Update(upd).Error
 }

@@ -3,17 +3,17 @@ package services
 import (
 	"insight-api/dbs"
 	"insight-api/utils"
-	"math"
 )
 
-func QueryApps(keyword, startStr, devId string, count int) *Apps {
+func QueryApps(keyword, devId string, page, count int) *Apps {
 	appDao := dbs.AppDao{}
-	start, err := utils.Decode(startStr)
-	if err != nil {
-		start = math.MaxInt32
+	appTables, err := appDao.QueryListByPage(keyword, devId, page, count)
+	apps := &Apps{
+		PageInfo: &PageInfo{
+			Page:  page,
+			Count: count,
+		},
 	}
-	appTables, err := appDao.QueryList(keyword, devId, start, count)
-	apps := &Apps{}
 	if err == nil {
 		l := len(appTables)
 		if l >= count {

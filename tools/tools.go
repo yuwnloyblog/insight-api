@@ -82,7 +82,7 @@ func QiniuUpload(needUploadFile, uploadFilePath string) error {
 // 保存图片
 func DownloadPicture(url, filename string) error {
 	resp, err := http.Get(url)
-	defer resp.Body.Close()
+
 	if err != nil {
 		return err
 	}

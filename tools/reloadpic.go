@@ -5,18 +5,21 @@ import (
 	"insight-api/dbs"
 	"insight-api/utils"
 	"math"
+	"strings"
 	"time"
 )
 
-func ReloadAppPic() {
+func ReloadAppPic(start int64) {
 	appDao := dbs.AppDao{}
-	start := int64(math.MaxInt32)
+	if start <= 0 {
+		start = int64(math.MaxInt32)
+	}
 	for {
 		apps, err := appDao.QueryList("", "", int64(start), 100)
 		if err == nil && len(apps) > 0 {
 			for _, app := range apps {
 				start = app.ID
-				if app.LogoUrl != "" {
+				if app.LogoUrl != "" && !strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") {
 					time.Sleep(50 * time.Millisecond)
 					nf, err := ReloadPic(app.LogoUrl, "apps")
 					if err != nil {

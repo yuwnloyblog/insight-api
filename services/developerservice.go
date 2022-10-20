@@ -4,10 +4,15 @@ import (
 	"insight-api/dbs"
 )
 
-func QueryDevelopers(keyword string, startStr string, count int) *Developers {
+func QueryDevelopers(keyword string, page, count int) *Developers {
 	developerDao := dbs.DeveloperDao{}
-	developerdbs, err := developerDao.QueryList(keyword, startStr, count)
-	developers := &Developers{}
+	developerdbs, err := developerDao.QueryListByPage(keyword, page, count)
+	developers := &Developers{
+		PageInfo: &PageInfo{
+			Page:  page,
+			Count: count,
+		},
+	}
 	if err == nil {
 		l := len(developerdbs)
 		if l >= count {

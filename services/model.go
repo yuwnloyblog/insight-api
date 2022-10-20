@@ -8,8 +8,13 @@ type HomeInfo struct {
 }
 
 type Apps struct {
-	Items   []*App `json:"items"`
-	HasMore bool   `json:"has_more"`
+	Items    []*App    `json:"items"`
+	PageInfo *PageInfo `json:"page_info"`
+	HasMore  bool      `json:"has_more"`
+}
+type PageInfo struct {
+	Page  int `json:"page"`
+	Count int `json:"count"`
 }
 
 type App struct {
@@ -33,8 +38,9 @@ type App struct {
 }
 
 type Developers struct {
-	Items   []*Developer `json:"items"`
-	HasMore bool         `json:"has_more"`
+	Items    []*Developer `json:"items"`
+	PageInfo *PageInfo    `json:"page_info"`
+	HasMore  bool         `json:"has_more"`
 }
 
 type Developer struct {

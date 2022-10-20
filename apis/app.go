@@ -9,7 +9,7 @@ import (
 )
 
 func AppList(ctx *gin.Context) {
-	startStr := ctx.Query("start")
+	pageStr := ctx.Query("page")
 	devId := ctx.Query("dev_id")
 
 	countStr := ctx.Query("count")
@@ -21,9 +21,18 @@ func AppList(ctx *gin.Context) {
 			count = 50
 		}
 	}
+	page, err := utils.ParseInt(pageStr)
+	if err != nil {
+		page = 1
+	} else {
+		if page <= 0 {
+			page = 1
+		}
+	}
+
 	keyword := ctx.Query("keyword")
 
-	if startStr != "" && !checkLogin(ctx) {
+	if page > 1 && !checkLogin(ctx) {
 		return
 	}
 
@@ -31,7 +40,7 @@ func AppList(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, services.QueryApps(keyword, startStr, devId, count))
+	ctx.JSON(http.StatusOK, services.QueryApps(keyword, devId, page, count))
 }
 
 func AppInfo(ctx *gin.Context) {

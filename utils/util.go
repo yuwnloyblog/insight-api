@@ -6,6 +6,7 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+	"time"
 
 	uuid "github.com/satori/go.uuid"
 )
@@ -57,4 +58,8 @@ func Parse2Uuid(pruneUuid string) (string, error) {
 	}
 	ret := hex.EncodeToString(bs)
 	return ret, nil
+}
+
+func TimeFormat(t time.Time) string {
+	return t.Format("20060102150405")
 }

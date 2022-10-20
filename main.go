@@ -1,26 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"insight-api/apis"
-	"insight-api/utils"
+	"insight-api/configures"
+	"insight-api/dbs"
+	"insight-api/logs"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// configures.InitConfigures()
-	// logs.InitLogs()
-	// dbs.InitMysql()
+	configures.InitConfigures()
+	logs.InitLogs()
+	dbs.InitMysql()
 
-	// router()
-	us := "da73f3aae4a24c4ba1628bd04e64599b"
-	fmt.Println(us)
-	val, _ := utils.PruneUuid(us)
-	fmt.Println(val)
-	v, err := utils.Parse2Uuid(val)
-	fmt.Println(v, err)
+	router()
 }
 
 func router() {

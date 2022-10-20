@@ -91,3 +91,9 @@ func (app AppDao) Create(item AppDao) error {
 	err := db.Create(&item).Error
 	return err
 }
+
+func (app AppDao) UpdateLogo(id int64, url string) error {
+	upd := map[string]interface{}{}
+	upd["logo_url"] = url
+	return db.Model(&app).Where("id=?", id).Update(upd).Error
+}

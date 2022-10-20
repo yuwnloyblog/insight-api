@@ -16,6 +16,8 @@ func main() {
 	dbs.InitMysql()
 
 	router()
+
+	// tools.ReloadAppPic()
 }
 
 func router() {

@@ -3,7 +3,6 @@ package tools
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -105,7 +104,6 @@ func GetFileNameFromUrl(url string) (string, error) {
 		return "", errors.New("url is not validate")
 	}
 	fileName := arr[len(arr)-1]
-	fmt.Println(arr[len(arr)-1])
 	return fileName, nil
 }
 
@@ -116,8 +114,16 @@ func DeleteFile(file string) error {
 func GetFileTail(file string) string {
 	arr := strings.Split(file, ".")
 	len := len(arr)
-	if len > 0 {
+	if len > 1 {
 		return arr[len-1]
 	}
 	return ""
+}
+
+func GetFileNoTail(file string) string {
+	c := strings.LastIndex(file, ".")
+	if c > 0 {
+		return file[:c]
+	}
+	return file
 }

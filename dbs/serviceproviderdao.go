@@ -51,9 +51,9 @@ func (dev ServiceProviderDao) FindById(id string) (*ServiceProviderDao, error) {
 	return &appItem, nil
 }
 
-func (dev ServiceProviderDao) QueryList(keyword string, start int64, count int) ([]*ServiceProviderDao, error) {
+func (dev ServiceProviderDao) QueryListByPage(keyword string, page, count int) ([]*ServiceProviderDao, error) {
 	var items []*ServiceProviderDao
-	err := db.Where("id < ?", start).Order("id desc").Limit(count).Find(&items).Error
+	err := db.Order("app_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
 	return items, err
 }
 

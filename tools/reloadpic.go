@@ -3,6 +3,7 @@ package tools
 import (
 	"fmt"
 	"insight-api/dbs"
+	"insight-api/utils"
 	"math"
 	"time"
 )
@@ -37,7 +38,7 @@ func ReloadPic(url, middlePath string) error {
 		return fmt.Errorf("Err_Download %s %s", url, err.Error())
 
 	}
-	newFileName := fmt.Sprintf("/%s/%s", middlePath, GetClearUuid())
+	newFileName := fmt.Sprintf("/%s/%s", middlePath, utils.GetClearUuid())
 	tail := GetFileTail(filename)
 	if tail != "" {
 		newFileName = newFileName + "." + tail

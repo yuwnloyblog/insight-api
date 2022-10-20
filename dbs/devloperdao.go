@@ -32,9 +32,6 @@ func (dev DeveloperDao) FindById(id string) (*DeveloperDao, error) {
 	if err != nil {
 		return nil, err
 	}
-	//  else if err == gorm.ErrRecordNotFound {
-	// 	return nil, nil
-	// }
 	return &appItem, nil
 }
 
@@ -48,6 +45,17 @@ func (dev DeveloperDao) QueryList(keyword string, start string, count int) ([]*D
 		return items, err
 	} else {
 		err := db.Where("id < ?", start).Order("id desc").Limit(count).Find(&items).Error
+		return items, err
+	}
+}
+
+func (dev DeveloperDao) QueryListByPage(keyword string, page, count int) ([]*DeveloperDao, error) {
+	var items []*DeveloperDao
+	if keyword != "" {
+		err := db.Where("title like ? ", "%"+keyword+"%").Order("download_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
+		return items, err
+	} else {
+		err := db.Order("download_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
 		return items, err
 	}
 }

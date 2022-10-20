@@ -11,7 +11,6 @@ import (
 
 	"github.com/qiniu/go-sdk/v7/auth"
 	"github.com/qiniu/go-sdk/v7/storage"
-	uuid "github.com/satori/go.uuid"
 )
 
 var (
@@ -112,16 +111,6 @@ func GetFileNameFromUrl(url string) (string, error) {
 
 func DeleteFile(file string) error {
 	return os.Remove(file)
-}
-
-func GetUuid() string {
-	id := uuid.NewV4()
-	return id.String()
-}
-
-func GetClearUuid() string {
-	id := GetUuid()
-	return strings.ReplaceAll(id, "-", "")
 }
 
 func GetFileTail(file string) string {

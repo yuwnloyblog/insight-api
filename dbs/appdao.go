@@ -65,6 +65,28 @@ func (app AppDao) QueryList(keyword, devId string, start int64, count int) ([]*A
 
 }
 
+func (app AppDao) QueryListByPage(keyword, devId string, page, count int) ([]*AppDao, error) {
+	var items []*AppDao
+	whereStr := ""
+	args := []interface{}{}
+	if keyword != "" {
+		if whereStr != "" {
+			whereStr = whereStr + " AND "
+		}
+		whereStr = whereStr + " title like ? "
+		args = append(args, "%"+keyword+"%")
+	}
+	if devId != "" {
+		if whereStr != "" {
+			whereStr = whereStr + " AND "
+		}
+		whereStr = whereStr + " developer_id_str = ? "
+		args = append(args, devId)
+	}
+	err := db.Where(whereStr, args...).Order("download_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
+	return items, err
+}
+
 func (app AppDao) Create(item AppDao) error {
 	err := db.Create(&item).Error
 	return err

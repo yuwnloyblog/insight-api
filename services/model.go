@@ -51,7 +51,7 @@ type Developer struct {
 	FoundedTime    string `json:"founded_time,omitempty"`
 	AddressArea    string `json:"address_area,omitempty"`
 	FinancingRound string `json:"financing_round,omitempty"`
-	LogoUrl        string `json:"logo_url,omitempty"`
+	LogoUrl        string `json:"-"`
 	AppCount       int    `json:"app_count,omitempty"`
 }
 
@@ -64,7 +64,7 @@ type SdkInfo struct {
 	Platforms string     `json:"platform"`
 	Category  string     `json:"category"`
 	Developer *Developer `json:"devloper"`
-	LogoUrl   string     `json:"logoUrl"`
+	LogoUrl   string     `json:"-"`
 }
 
 type WxLoginResp struct {

@@ -19,7 +19,7 @@ func ReloadAppPic(start int64) {
 		if err == nil && len(apps) > 0 {
 			for _, app := range apps {
 				start = app.ID
-				if app.LogoUrl != "" && !strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") {
+				if app.LogoUrl != "" && !strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") && !strings.HasPrefix(app.LogoUrl, "https://pp.myapp.com") {
 					time.Sleep(50 * time.Millisecond)
 					nf, err := ReloadPic(app.LogoUrl, "apps", app.ID)
 					if err != nil {

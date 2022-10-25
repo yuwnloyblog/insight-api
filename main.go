@@ -16,8 +16,8 @@ func main() {
 	dbs.InitMysql()
 
 	router()
-}
 
+}
 func router() {
 	r := gin.Default()
 	r.Use(apis.HandleToken)

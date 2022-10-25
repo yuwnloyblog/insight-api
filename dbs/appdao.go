@@ -59,11 +59,10 @@ func (app AppDao) FindByBundleId(bundleId string) ([]*AppDao, error) {
 	err := db.Where("bundle_id=?", bundleId).Find(&items).Error
 	return items, err
 }
-
 func (app AppDao) QueryList(keyword, devId string, start int64, count int) ([]*AppDao, error) {
 	var items []*AppDao
 
-	whereStr := "id < ?"
+	whereStr := "id > ?"
 	args := []interface{}{}
 	args = append(args, start)
 	if keyword != "" {
@@ -74,7 +73,7 @@ func (app AppDao) QueryList(keyword, devId string, start int64, count int) ([]*A
 		whereStr = whereStr + " AND developer_id_str = ?"
 		args = append(args, devId)
 	}
-	err := db.Where(whereStr, args...).Order("id desc").Limit(count).Find(&items).Error
+	err := db.Where(whereStr, args...).Order("id asc").Limit(count).Find(&items).Error
 	return items, err
 
 }
@@ -119,5 +118,8 @@ func (app AppDao) UpdateDevIdStr(id int64, idStr string) error {
 }
 
 func (app AppDao) Updates(id int64, upd map[string]interface{}) error {
-	return db.Model(&app).Where("id=?", id).Update(upd).Error
+	if len(upd) > 0 {
+		return db.Model(&app).Where("id=?", id).Update(upd).Error
+	}
+	return nil
 }

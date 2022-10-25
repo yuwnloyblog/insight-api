@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/dbs"
+	"insight-api/utils"
 	"math"
 	"strconv"
 	"strings"
@@ -35,7 +36,7 @@ func FillDev() {
 
 func QueryDeveloperOnly(id string) {
 	url := fmt.Sprintf("https://api.app.forkai.cn/webapi/publishers/%s", id)
-	ret, err := HttpDo("GET", url, headers, "")
+	ret, err := utils.HttpDo("GET", url, headers, "")
 	if err == nil {
 		fmt.Println(ret)
 		var resp PublisherResp
@@ -49,7 +50,7 @@ func QueryDeveloperOnly(id string) {
 }
 func QueryDeveloper(id string) {
 	url := fmt.Sprintf("https://api.app.forkai.cn/webapi/publishers/%s", id)
-	ret, err := HttpDo("GET", url, headers, "")
+	ret, err := utils.HttpDo("GET", url, headers, "")
 	if err == nil {
 		var resp PublisherResp
 		err = json.Unmarshal([]byte(ret), &resp)

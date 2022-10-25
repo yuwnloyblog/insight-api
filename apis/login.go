@@ -6,7 +6,6 @@ import (
 	"insight-api/configures"
 	"insight-api/dbs"
 	"insight-api/services"
-	"insight-api/tools"
 	"insight-api/utils"
 	"net/http"
 	"strconv"
@@ -22,14 +21,14 @@ func WxLogin(ctx *gin.Context) {
 		return
 	}
 
-	// phoenCode := ctx.PostForm("phone_code")
+	phoenCode := ctx.PostForm("phone_code")
 
 	appId := configures.Config.Wx.AppId
 	secret := configures.Config.Wx.Secret
 	fmt.Println("appid:", appId, "secret:", secret)
 	header := map[string]string{}
 	wxUrl := fmt.Sprintf("https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code", appId, secret, jsCode)
-	resp, err := tools.HttpDo("GET", wxUrl, header, "")
+	resp, err := utils.HttpDo("GET", wxUrl, header, "")
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_WxLoginFail))
 		return
@@ -51,11 +50,13 @@ func WxLogin(ctx *gin.Context) {
 	//入库
 	token, u, err := services.RegisterOrLogin(services.User{
 		WxOpenid: wxResp.OpenId,
+		Phone:    phoenCode,
 	})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err)
 		return
 	}
+
 	ctx.Writer.Header().Set("X-Status", strconv.Itoa(u.Status))
 	ctx.JSON(http.StatusOK, services.LoginUserResp{
 		Token:    token,
@@ -96,7 +97,6 @@ func HandleToken(ctx *gin.Context) {
 		}
 		ctx.Set("uid", uid)
 		ctx.Set("status", user.Status)
-		fmt.Println("uid:", uid, "status:", user.Status)
 
 		ctx.Writer.Header().Set("X-Status", strconv.Itoa(user.Status))
 	}
@@ -114,6 +114,10 @@ func checkLogin(ctx *gin.Context) bool {
 func checkPay(ctx *gin.Context) bool {
 	status := ctx.GetInt("status")
 	if status != dbs.UserStatus_YEAR_PAY && status != dbs.UserStatus_HALFYEAR_PAY && status != dbs.UserStatus_SEASON_PAY && status != dbs.UserStatus_MONTH_PAY {
+		if checkFreeCount(ctx) {
+			return true
+		}
+
 		ctx.JSON(http.StatusForbidden, services.GetError(services.ErrorCode_NeedPay))
 		return false
 	}

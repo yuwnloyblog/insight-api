@@ -34,16 +34,16 @@ func (sdk SdkDao) FindById(id int64) (*SdkDao, error) {
 	return &appItem, nil
 }
 
-func (sdk SdkDao) QueryList(appId int64) ([]*SdkDao, error) {
+func (sdk SdkDao) QueryList(appUid string) ([]*SdkDao, error) {
 	appDao := AppDao{}
-	app, err := appDao.FindById(appId)
+	app, err := appDao.FindByUid(appUid)
 	if err != nil {
 		return nil, err
 	}
 	ids := strings.Split(app.SdkUids, ",")
 	if len(ids) > 0 {
 		var items []*SdkDao
-		err = db.Raw("SELECT * FROM sdks where id in (?)", ids).Scan(&items).Error
+		err = db.Debug().Raw("SELECT * FROM sdks where id in (?)", ids).Scan(&items).Error
 		return items, err
 	}
 	return nil, nil

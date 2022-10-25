@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/dbs"
+	"insight-api/utils"
 	"strings"
 	"time"
 )
@@ -17,7 +18,7 @@ func CatchApps() {
 	appDao := dbs.AppDao{}
 	for {
 		url := fmt.Sprintf("https://api.app.forkai.cn/webapi/products/query?page=%d", index)
-		ret, err := HttpDo("POST", url, header2, `{"channel":"huawei","countryCode":"CN"}`)
+		ret, err := utils.HttpDo("POST", url, header2, `{"channel":"huawei","countryCode":"CN"}`)
 		if err == nil {
 			var data ProductsResp
 			err = json.Unmarshal([]byte(ret), &data)

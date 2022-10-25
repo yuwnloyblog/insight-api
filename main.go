@@ -1,14 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"insight-api/apis"
 	"insight-api/configures"
 	"insight-api/dbs"
 	"insight-api/logs"
-	"insight-api/utils"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,21 +15,7 @@ func main() {
 	logs.InitLogs()
 	dbs.InitMysql()
 
-	// router()
-	args := os.Args
-	var start int64 = 0
-	if len(args) > 1 {
-		tmp, err := utils.ParseInt64(args[1])
-		if err != nil {
-			start = 0
-		} else {
-			start = tmp
-		}
-	}
-	//tools.UpdateAppDevId(start)
-	da := dbs.DeveloperDao{}
-	err := da.UpdateId("abc", "efg")
-	fmt.Println(start, err)
+	router()
 }
 
 func router() {
@@ -66,6 +49,8 @@ func router() {
 	r.POST("/user/wx_login", apis.WxLogin)
 	r.POST("/user/wx_pay", apis.WxPay)
 	r.POST("/user/wx_pay_notify", apis.WxPayNotify)
+
+	r.POST("/feedback/add", apis.PostFeedback)
 
 	r.Run(":8080")
 }

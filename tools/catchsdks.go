@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/dbs"
+	"insight-api/utils"
 	"strings"
 	"time"
 )
@@ -18,7 +19,7 @@ func CatchSdks() {
 	sdkDao := dbs.SdkDao{}
 	for {
 		url := fmt.Sprintf("https://api.app.forkai.cn/webapi/sdks/search?page=%d", index)
-		ret, err := HttpDo("POST", url, header, ``)
+		ret, err := utils.HttpDo("POST", url, header, ``)
 		if err == nil {
 			var data SdkResp
 			err = json.Unmarshal([]byte(ret), &data)

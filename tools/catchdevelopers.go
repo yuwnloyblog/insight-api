@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/dbs"
+	"insight-api/utils"
 	"strconv"
 	"strings"
 	"time"
@@ -20,7 +21,7 @@ func CatchDevelopers() {
 	devDao := dbs.DeveloperDao{}
 	for {
 		url := fmt.Sprintf("https://api.app.forkai.cn/webapi/publishers/search?page=%d", index)
-		ret, err := HttpDo("POST", url, header, "")
+		ret, err := utils.HttpDo("POST", url, header, "")
 		if err == nil {
 			var data DeveloperCommonData
 			err = json.Unmarshal([]byte(ret), &data)

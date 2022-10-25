@@ -70,7 +70,7 @@ func (dev DeveloperDao) Delete(id string) error {
 
 func (dev DeveloperDao) UpdateId(id, newId string) error {
 	// upd := map[string]interface{}{}
-	// upd["id"] = newId
-	return db.Raw("update insight_db.developers set title='xxx' where id='abc'").Error
-	// return db.Model(&dev).Where("id=?", id).Update(upd).Error
+	// upd["id"] = "nihao"
+	// return db.Debug().Model(&dev).Where("id=?", id).Update(upd).Error
+	return db.Debug().Exec("update developers set id=? where id=?", newId, id).Error
 }

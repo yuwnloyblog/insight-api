@@ -18,8 +18,16 @@ func SdkList(ctx *gin.Context) {
 		return
 	}
 
-	sdks := services.QuerySdksByAppIdStr(appIdStr)
+	sdks := services.QuerySdksByAppId(appIdStr)
 	ctx.JSON(http.StatusOK, &services.Sdks{
 		Items: sdks,
 	})
+}
+
+func checkFreeCount(ctx *gin.Context) bool {
+	uid := ctx.GetInt64("uid")
+	if uid <= 0 {
+		return false
+	}
+	return services.CheckFreeCount(uid)
 }

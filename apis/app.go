@@ -40,7 +40,7 @@ func AppList(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, services.QueryApps(keyword, devId, page, count))
+	ctx.JSON(http.StatusOK, services.QueryAppInfos(keyword, devId, page, count))
 }
 
 func AppInfo(ctx *gin.Context) {

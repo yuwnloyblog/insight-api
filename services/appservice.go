@@ -2,12 +2,11 @@ package services
 
 import (
 	"insight-api/dbs"
-	"insight-api/utils"
 )
 
-func QueryApps(keyword, devId string, page, count int) *Apps {
-	appDao := dbs.AppDao{}
-	appTables, err := appDao.QueryListByPage(keyword, devId, page, count)
+func QueryAppInfos(keyword, devId string, page, count int) *Apps {
+	appInfoDao := dbs.AppInfoDao{}
+	appInfos, err := appInfoDao.QueryListByPage(keyword, devId, page, count)
 	apps := &Apps{
 		PageInfo: &PageInfo{
 			Page:  page,
@@ -15,67 +14,58 @@ func QueryApps(keyword, devId string, page, count int) *Apps {
 		},
 	}
 	if err == nil {
-		l := len(appTables)
+		l := len(appInfos)
 		if l >= count {
 			apps.HasMore = true
 		}
 		apps.Items = make([]*App, 0)
-		for _, appTable := range appTables {
-			isStr, _ := utils.Encode(appTable.ID)
+		for _, appInfo := range appInfos {
 			apps.Items = append(apps.Items, &App{
-				Id:            isStr,
-				Title:         appTable.Title,
-				BundleId:      appTable.BundleId,
-				Platform:      appTable.Platform,
-				Channel:       appTable.Channel,
-				Website:       appTable.Website,
-				Description:   appTable.Description,
-				ReleaseDate:   appTable.ReleaseDate.UnixMilli(),
-				Developer:     GetDeveloperById(appTable.DeveloperIdStr, appTable.DeveloperTitle),
-				Size:          appTable.Size,
-				CreateTime:    appTable.CreateTime.UnixMilli(),
-				LogoUrl:       appTable.LogoUrl,
-				Category:      appTable.Category,
-				LatestVersion: appTable.LatestVersion,
-				CountryCode:   appTable.CountryCode,
+				Id:          appInfo.Id,
+				Title:       appInfo.Title,
+				Channel:     appInfo.Channels,
+				Website:     appInfo.Website,
+				Description: appInfo.Description,
+				Developer: &Developer{
+					Title: appInfo.DeveloperTitle,
+				},
+				CreateTime:    appInfo.CreateTime.UnixMilli(),
+				LogoUrl:       appInfo.LogoUrl,
+				Category:      appInfo.Category,
+				LatestVersion: appInfo.LatestVersion,
 			})
 		}
 	}
 	return apps
 }
 
-func GetAppById(appId int64) *App {
+func GetAppByIdStr(appIdStr string) map[string]*App {
 	appDao := dbs.AppDao{}
-	appdb, err := appDao.FindById(appId)
-	if err == nil {
-		idStr, _ := utils.Encode(appdb.ID)
-		return &App{
-			Id:            idStr,
-			Title:         appdb.Title,
-			BundleId:      appdb.BundleId,
-			Platform:      appdb.Platform,
-			Channel:       appdb.Channel,
-			Website:       appdb.Website,
-			Description:   appdb.Description,
-			ReleaseDate:   appdb.ReleaseDate.UnixMilli(),
-			Developer:     GetDeveloperById(appdb.DeveloperIdStr, appdb.DeveloperTitle),
-			Size:          appdb.Size,
-			CreateTime:    appdb.CreateTime.UnixMilli(),
-			LogoUrl:       appdb.LogoUrl,
-			Category:      appdb.Category,
-			LatestVersion: appdb.LatestVersion,
-			CountryCode:   appdb.CountryCode,
-
-			//Sdks: QuerySdksByAppId(appId),
+	apps, err := appDao.FindByBundleId(appIdStr)
+	if err != nil || len(apps) <= 0 {
+		return map[string]*App{}
+	}
+	ret := map[string]*App{}
+	for _, app := range apps {
+		appItem := &App{
+			Id:                app.Uid,
+			Title:             app.Title,
+			BundleId:          app.BundleId,
+			Platform:          app.Platform,
+			Channel:           app.Channel,
+			Website:           app.Website,
+			Description:       app.Description,
+			Developer:         GetDeveloperById(app.DeveloperIdStr, app.DeveloperTitle),
+			Size:              app.Size,
+			CreateTime:        app.CreateTime.UnixMilli(),
+			LogoUrl:           app.LogoUrl,
+			Category:          app.Category,
+			LatestVersion:     app.LatestVersion,
+			CountryCode:       app.CountryCode,
+			LatestReleaseDate: app.LatestReleaseDate,
+			FirstReleaseDate:  app.FirstReleaseDate,
 		}
+		ret[app.Channel] = appItem
 	}
-	return nil
-}
-
-func GetAppByIdStr(appIdStr string) *App {
-	appId, err := utils.Decode(appIdStr)
-	if err == nil {
-		return GetAppById(appId)
-	}
-	return nil
+	return ret
 }

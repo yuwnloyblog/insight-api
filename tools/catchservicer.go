@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/dbs"
+	"insight-api/utils"
 	"strconv"
 	"strings"
 	"time"
@@ -18,7 +19,7 @@ func CatchServicers() {
 	servicerDao := dbs.ServiceProviderDao{}
 	for {
 		url := fmt.Sprintf("https://api.app.forkai.cn/webapi/service-providers/search?page=%d", index)
-		ret, err := HttpDo("POST", url, header, "")
+		ret, err := utils.HttpDo("POST", url, header, "")
 		if err == nil {
 			var data ServiceProviderCommonData
 			err = json.Unmarshal([]byte(ret), &data)

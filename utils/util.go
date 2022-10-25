@@ -59,6 +59,21 @@ func Parse2Uuid(pruneUuid string) (string, error) {
 	ret := hex.EncodeToString(bs)
 	return ret, nil
 }
+func Parse2NormalUuid(pruneUuid string) (string, error) {
+	val, err := Parse2Uuid(pruneUuid)
+	if err != nil {
+		return "", err
+	}
+	bs := []byte(val)
+	newBs := []byte{}
+	for i, b := range bs {
+		newBs = append(newBs, b)
+		if i == 7 || i == 11 || i == 15 || i == 19 {
+			newBs = append(newBs, byte('-'))
+		}
+	}
+	return string(newBs), err
+}
 
 func TimeFormat(t time.Time) string {
 	return t.Format("20060102150405")

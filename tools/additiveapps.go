@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"insight-api/dbs"
+	"insight-api/utils"
 	"math/rand"
 	"strings"
 	"time"
@@ -24,7 +25,7 @@ func AdditiveAppsScanByChannel(channel, countryCode, updateScope string) {
 			"updateDateEnd": "now"
 		  }`, channel, countryCode, updateScope)
 		url := fmt.Sprintf("https://api.app.forkai.cn/webapi/products/query?page=%d", pageIndex)
-		ret, err := HttpDo("POST", url, headers, body)
+		ret, err := utils.HttpDo("POST", url, headers, body)
 		if err == nil {
 			var data ProductsResp
 			err = json.Unmarshal([]byte(ret), &data)

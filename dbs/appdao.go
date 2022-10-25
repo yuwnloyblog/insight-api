@@ -54,6 +54,11 @@ func (app AppDao) FindByUid(uid string) (*AppDao, error) {
 	return &appItem, nil
 }
 
+func (app AppDao) FindByBundleId(bundleId string) ([]*AppDao, error) {
+	var items []*AppDao
+	err := db.Where("bundle_id=?", bundleId).Find(&items).Error
+	return items, err
+}
 func (app AppDao) QueryList(keyword, devId string, start int64, count int) ([]*AppDao, error) {
 	var items []*AppDao
 

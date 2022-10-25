@@ -12,7 +12,6 @@ import (
 func UserInfoUpdate(ctx *gin.Context) {
 	avatar := ctx.PostForm("avatar")
 	nickname := ctx.PostForm("nick_name")
-	phone := ctx.PostForm("phone")
 
 	uid := ctx.GetInt64("uid")
 	if uid <= 0 {
@@ -22,7 +21,6 @@ func UserInfoUpdate(ctx *gin.Context) {
 	err := services.UpdateUserInfo(uid, services.User{
 		NickName: nickname,
 		Avatar:   avatar,
-		Phone:    phone,
 	})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, services.GetError(services.ErrorCode_UserDbUpdateFail))

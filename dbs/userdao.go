@@ -29,9 +29,11 @@ type UserDao struct {
 	Language string `gorm:"language"`
 	Province string `gorm:"province"`
 	//WxUnionid  string    `gorm:"wx_unionid"`
-	WxOpenid   string    `gorm:"wx_openid"`
-	Avatar     string    `gorm:"avatar"`
-	CreateTime time.Time `gorm:"create_time"`
+	WxOpenid      string    `gorm:"wx_openid"`
+	Avatar        string    `gorm:"avatar"`
+	CreateTime    time.Time `gorm:"create_time"`
+	FreeCount     int       `gorm:"free_count"`
+	LatestPayTime int64     `gorm:"latest_pay_time"`
 }
 
 func (user UserDao) TableName() string {
@@ -49,6 +51,9 @@ func (user UserDao) FindById(id int64) (*UserDao, error) {
 	if err != nil {
 		return nil, err
 	}
+	if !checkPaytime(item.LatestPayTime, item.Status) {
+		item.Status = 0
+	}
 	return &item, nil
 }
 
@@ -58,7 +63,25 @@ func (user UserDao) FindByWxOpenid(openid string) (*UserDao, error) {
 	if err != nil {
 		return nil, err
 	}
+	if !checkPaytime(item.LatestPayTime, item.Status) {
+		item.Status = 0
+	}
 	return &item, nil
+}
+
+func checkPaytime(payTime int64, status int) bool {
+	var deta int64 = 0
+	if status == UserStatus_MONTH_PAY {
+		deta = 31 * 24 * 3600 * 1000
+	} else if status == UserStatus_SEASON_PAY {
+		deta = 92 * 24 * 3600 * 1000
+	} else if status == UserStatus_HALFYEAR_PAY {
+		deta = 183 * 24 * 3600 * 1000
+	} else if status == UserStatus_YEAR_PAY {
+		deta = 365 * 24 * 3600 * 1000
+	}
+
+	return (time.Now().UnixMilli() - deta) < payTime
 }
 
 // func (user UserDao) Updates(id int64, upd map[string]interface{}) error {
@@ -99,5 +122,23 @@ func (user UserDao) Updates(u UserDao) error {
 func (user UserDao) UpdateStatus(uid int64, status int) error {
 	upd := map[string]interface{}{}
 	upd["status"] = status
+	return db.Model(&user).Where("id=?", uid).Update(upd).Error
+}
+func (user UserDao) UpdatePayStatus(wxOpenid string, status int, payTime int64) error {
+	upd := map[string]interface{}{}
+	upd["status"] = status
+	upd["latest_pay_time"] = payTime
+	return db.Model(&user).Where("wx_openid=?", wxOpenid).Update(upd).Error
+}
+
+func (user UserDao) UpdateFreeCount(uid int64, freeCount int) error {
+	upd := map[string]interface{}{}
+	upd["free_count"] = freeCount
+	return db.Model(&user).Where("id=?", uid).Update(upd).Error
+}
+
+func (user UserDao) UpdatePhone(uid int64, phone string) error {
+	upd := map[string]interface{}{}
+	upd["phone"] = phone
 	return db.Model(&user).Where("id=?", uid).Update(upd).Error
 }

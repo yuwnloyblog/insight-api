@@ -5,7 +5,6 @@ import (
 	"insight-api/configures"
 	"insight-api/dbs"
 	"insight-api/logs"
-	"insight-api/tools"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,9 +15,7 @@ func main() {
 	logs.InitLogs()
 	dbs.InitMysql()
 
-	// // router()
-	tools.ReloadAppPic(147542)
-	// tools.ReplaceIcon4AppInfo(1)
+	router()
 
 }
 func router() {
@@ -52,6 +49,8 @@ func router() {
 	r.POST("/user/wx_login", apis.WxLogin)
 	r.POST("/user/wx_pay", apis.WxPay)
 	r.POST("/user/wx_pay_notify", apis.WxPayNotify)
+
+	r.POST("/feedback/add", apis.PostFeedback)
 
 	r.Run(":8080")
 }

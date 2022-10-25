@@ -43,6 +43,7 @@ func GetDeveloperById(id, title string) *Developer {
 	}
 	developerdb, err := developerDao.FindById(id)
 	if err == nil {
+		dev.Title = developerdb.Title
 		dev.Trade = developerdb.Industry
 		dev.FoundedTime = developerdb.FoundedYear
 		dev.AddressArea = developerdb.AddressArea

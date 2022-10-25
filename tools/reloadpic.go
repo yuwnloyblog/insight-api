@@ -21,21 +21,21 @@ func ReloadAppPic(start int64) {
 				start = app.ID
 				if app.LogoUrl != "" && !strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") {
 					time.Sleep(50 * time.Millisecond)
-					nf, err := ReloadPic(app.LogoUrl, "apps")
+					nf, err := ReloadPic(app.LogoUrl, "apps", app.ID)
 					if err != nil {
 						fmt.Println(err.Error(), app.ID)
 						continue
 					}
 					nf = "https://file.lwoowl.cn/" + nf
 					//更新数据库
-					appDao.UpdateLogo(app.ID, nf)
+					// appDao.UpdateLogo(app.ID, nf)
 					fmt.Println("id:", app.ID, "old_url:", app.LogoUrl, "new_url:", nf)
 				}
 			}
 		}
 	}
 }
-func ReloadPic(url, middlePath string) (string, error) {
+func ReloadPic(url, middlePath string, id int64) (string, error) {
 	filename, err := GetFileNameFromUrl(url)
 	if err != nil {
 		return "", fmt.Errorf("Err_Url %s %s", url, err.Error())
@@ -50,7 +50,7 @@ func ReloadPic(url, middlePath string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("Err_HandleUuid %s %s", url, err.Error())
 	}
-	fn, _ := utils.PruneUuid(utils.GetClearUuid())
+	fn, _ := utils.Encode(id)
 	newFileName := fmt.Sprintf("%s/%s", middlePath, fn)
 
 	if tail != "" {

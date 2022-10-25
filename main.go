@@ -1,14 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"insight-api/apis"
 	"insight-api/configures"
 	"insight-api/dbs"
 	"insight-api/logs"
-	"insight-api/utils"
+	"insight-api/tools"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,23 +16,11 @@ func main() {
 	logs.InitLogs()
 	dbs.InitMysql()
 
-	// router()
-	args := os.Args
-	var start int64 = 0
-	if len(args) > 1 {
-		tmp, err := utils.ParseInt64(args[1])
-		if err != nil {
-			start = 0
-		} else {
-			start = tmp
-		}
-	}
-	//tools.UpdateAppDevId(start)
-	da := dbs.DeveloperDao{}
-	err := da.UpdateId("abc", "efg")
-	fmt.Println(start, err)
-}
+	// // router()
+	// tools.ReloadAppPic(117968)
+	tools.ReplaceIcon4AppInfo(1)
 
+}
 func router() {
 	r := gin.Default()
 	r.Use(apis.HandleToken)

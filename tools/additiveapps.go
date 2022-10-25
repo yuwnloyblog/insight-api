@@ -68,7 +68,7 @@ func AppCompareAndSave(prod *Product) {
 		channel, platform, bundle := ParseUid(prod.Uid)
 		appDao.Create(dbs.AppDao{
 			Title:             prod.Title,
-			LogoUrl:           prod.LogoUrl, //TODO 更换获取logo的方式
+			LogoUrl:           GetIconUrl(prod.BundleId, prod.LogoUrl, "apps"), // 更换获取logo的方式
 			DeveloperIdStr:    devIdStr,
 			DeveloperTitle:    devTitle,
 			Channel:           channel,
@@ -94,6 +94,7 @@ func AppCompareAndSave(prod *Product) {
 		addServices = prod.CloudServiceUids
 		delSdks = []string{}
 		delServices = []string{}
+		//TODO save prod.BundleId
 	} else { //更新
 		addSdks, delSdks = compareIds(strings.Split(app.SdkUids, ","), prod.SdkUids)
 		addServices, delServices = compareIds(strings.Split(app.CloudServices, ","), prod.CloudServiceUids)
@@ -136,6 +137,9 @@ func AppCompareAndSave(prod *Product) {
 			upd["cloud_service_devs"] = strings.Join(prod.CloudServiceProviders, ",")
 		}
 		appDao.Updates(app.ID, upd)
+		if len(upd) > 0 {
+			//TODO save prod.BundleId
+		}
 	}
 	//增加change log
 	if len(addSdks) > 0 || len(delSdks) > 0 || len(addServices) > 0 || len(delServices) > 0 {
@@ -156,7 +160,13 @@ func AppCompareAndSave(prod *Product) {
 		CheckDeveloper(devIdStr)
 	}
 	//检查SDK uids
+	if len(addSdks) > 0 {
+		CheckSkdUids(addSdks)
+	}
 	//检查services uids
+	if len(addServices) > 0 {
+		CheckServiceUids(addServices)
+	}
 }
 
 func compareIds(oldIds, newIds []string) ([]string, []string) {
@@ -188,5 +198,17 @@ func compareIds(oldIds, newIds []string) ([]string, []string) {
 }
 
 func CheckDeveloper(devId string) {
+
+}
+
+func CheckSkdUids(sdkUids []string) {
+
+}
+
+func CheckServiceUids(serviceUids []string) {
+
+}
+
+func RefreshAppInfos(appInfoIds []string) {
 
 }

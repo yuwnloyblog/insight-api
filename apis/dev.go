@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"fmt"
 	"insight-api/services"
 	"insight-api/utils"
 	"net/http"
@@ -29,8 +30,15 @@ func DeveloperList(ctx *gin.Context) {
 	if page > 1 && !checkLogin(ctx) {
 		return
 	}
-
-	ctx.JSON(http.StatusOK, services.QueryDevelopers(keyword, page, count))
+	devs := services.QueryDevelopers(keyword, page, count)
+	if devs != nil && len(devs.Items) > 0 {
+		for _, dev := range devs.Items {
+			if dev.Id != "" {
+				dev.Id = EncodeUuid(dev.Id)
+			}
+		}
+	}
+	ctx.JSON(http.StatusOK, devs)
 }
 
 func DeveloperInfo(ctx *gin.Context) {
@@ -38,6 +46,13 @@ func DeveloperInfo(ctx *gin.Context) {
 		return
 	}
 	devIdStr := ctx.Query("id")
+	if devIdStr != "" {
+		devIdStr = DecodeUuid(devIdStr)
+		fmt.Println("devId", devIdStr)
+	}
 	devloper := services.GetDeveloperById(devIdStr, "")
+	if devloper != nil && devloper.Id != "" {
+		devloper.Id = EncodeUuid(devloper.Id)
+	}
 	ctx.JSON(http.StatusOK, devloper)
 }

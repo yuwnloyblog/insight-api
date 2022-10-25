@@ -12,6 +12,10 @@ func AppList(ctx *gin.Context) {
 	pageStr := ctx.Query("page")
 	devId := ctx.Query("dev_id")
 
+	if devId != "" {
+		devId = DecodeUuid(devId)
+	}
+
 	countStr := ctx.Query("count")
 	count, err := utils.ParseInt(countStr)
 	if err != nil {
@@ -39,8 +43,16 @@ func AppList(ctx *gin.Context) {
 	if devId != "" && !checkPay(ctx) {
 		return
 	}
+	retApps := services.QueryAppInfos(keyword, devId, page, count)
+	if retApps != nil && len(retApps.Items) > 0 {
+		for _, app := range retApps.Items {
+			if app.Developer.Id != "" {
+				app.Developer.Id = EncodeUuid(app.Developer.Id)
+			}
+		}
+	}
 
-	ctx.JSON(http.StatusOK, services.QueryAppInfos(keyword, devId, page, count))
+	ctx.JSON(http.StatusOK, retApps)
 }
 
 func AppInfo(ctx *gin.Context) {
@@ -48,6 +60,13 @@ func AppInfo(ctx *gin.Context) {
 		return
 	}
 	appIdStr := ctx.Query("id")
-	app := services.GetAppByIdStr(appIdStr)
-	ctx.JSON(http.StatusOK, app)
+	appMap := services.GetAppByIdStr(appIdStr)
+
+	for _, app := range appMap {
+		if app.Developer != nil && app.Developer.Id != "" {
+			app.Developer.Id = EncodeUuid(app.Developer.Id)
+		}
+	}
+
+	ctx.JSON(http.StatusOK, appMap)
 }

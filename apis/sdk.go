@@ -19,6 +19,13 @@ func SdkList(ctx *gin.Context) {
 	}
 
 	sdks := services.QuerySdksByAppId(appIdStr)
+	if len(sdks) > 0 {
+		for _, sdk := range sdks {
+			if sdk.Developer != nil && sdk.Developer.Id != "" {
+				sdk.Developer.Id = EncodeUuid(sdk.Developer.Id)
+			}
+		}
+	}
 	ctx.JSON(http.StatusOK, &services.Sdks{
 		Items: sdks,
 	})

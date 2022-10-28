@@ -51,6 +51,23 @@ func (sdk SdkDao) QueryList(appUid string) ([]*SdkDao, error) {
 	// return items, err
 }
 
+func (sdk SdkDao) QueryAllList(start string, count int) ([]*SdkDao, error) {
+	var items []*SdkDao
+	if start != "" {
+		err := db.Where("id>?", start).Order("id asc").Limit(count).Find(&items).Error
+		return items, err
+	} else {
+		err := db.Order("id asc").Limit(count).Find(&items).Error
+		return items, err
+	}
+}
+
 func (sdk SdkDao) Create(s SdkDao) error {
 	return db.Create(&s).Error
+}
+
+func (sdk SdkDao) UpdateLogo(id string, logo string) error {
+	upd := map[string]interface{}{}
+	upd["logo_url"] = logo
+	return db.Model(&sdk).Where("id=?", id).Update(upd).Error
 }

@@ -17,8 +17,8 @@ func main() {
 	dbs.InitMysql()
 
 	//router()
-	// tools.ReplaceIcon4App(1)
-	tools.ReplaceIcon4AppInfo(1)
+	// tools.ReloadSdkLogo("")
+	tools.TmpUpdate()
 
 }
 func router() {

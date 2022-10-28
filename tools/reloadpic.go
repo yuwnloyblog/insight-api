@@ -35,6 +35,7 @@ func ReloadAppPic(start int64) {
 		}
 	}
 }
+
 func ReloadPic(url, middlePath string, id int64) (string, error) {
 	filename, err := GetFileNameFromUrl(url)
 	if err != nil {

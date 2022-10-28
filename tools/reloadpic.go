@@ -20,7 +20,7 @@ func ReloadAppPic(start int64) {
 			for _, app := range apps {
 				start = app.ID
 				if app.LogoUrl != "" && !strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") && !strings.HasPrefix(app.LogoUrl, "https://pp.myapp.com") {
-					time.Sleep(50 * time.Millisecond)
+					time.Sleep(10 * time.Millisecond)
 					nf, err := ReloadPic(app.LogoUrl, "apps", app.ID)
 					if err != nil {
 						fmt.Println(err.Error(), app.ID)
@@ -60,6 +60,25 @@ func ReloadPic(url, middlePath string, id int64) (string, error) {
 	DeleteFile(filename)
 	if err != nil {
 		return "", fmt.Errorf("Err_Upload %s %s", url, err.Error())
+	}
+	return newFileName, nil
+}
+func ReloadPicNoUpload(url, middlePath string, id int64) (string, error) {
+	filename, err := GetFileNameFromUrl(url)
+	if err != nil {
+		return "", fmt.Errorf("Err_Url %s %s", url, err.Error())
+	}
+
+	tail := GetFileTail(filename)
+
+	if err != nil {
+		return "", fmt.Errorf("Err_HandleUuid %s %s", url, err.Error())
+	}
+	fn, _ := utils.Encode(id)
+	newFileName := fmt.Sprintf("%s/%s", middlePath, fn)
+
+	if tail != "" {
+		newFileName = newFileName + "." + tail
 	}
 	return newFileName, nil
 }

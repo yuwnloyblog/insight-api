@@ -4,6 +4,7 @@ import (
 	"insight-api/services"
 	"insight-api/utils"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -49,6 +50,9 @@ func AppList(ctx *gin.Context) {
 			if app.Developer.Id != "" {
 				app.Developer.Id = EncodeUuid(app.Developer.Id)
 			}
+			if !strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") && !strings.HasPrefix(app.LogoUrl, "https://pp.myapp.com") {
+				app.LogoUrl = ""
+			}
 		}
 	}
 
@@ -65,6 +69,9 @@ func AppInfo(ctx *gin.Context) {
 	for _, app := range appMap {
 		if app.Developer != nil && app.Developer.Id != "" {
 			app.Developer.Id = EncodeUuid(app.Developer.Id)
+		}
+		if !strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") && !strings.HasPrefix(app.LogoUrl, "https://pp.myapp.com") {
+			app.LogoUrl = ""
 		}
 	}
 

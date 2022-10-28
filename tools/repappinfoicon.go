@@ -1,6 +1,7 @@
 package tools
 
 import (
+	"errors"
 	"fmt"
 	"insight-api/dbs"
 	"strings"
@@ -14,12 +15,20 @@ func ReplaceIcon4AppInfo(startPage int) {
 		appinfos, err := appInfoDao.QueryListByPage("", "", pageIndex, 1000)
 		if err == nil && len(appinfos) > 0 {
 			for _, app := range appinfos {
+				if strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") || strings.HasPrefix(app.LogoUrl, "https://pp.myapp.com") {
+					continue
+				}
 				packageName := app.Id
 				if packageName != "" {
-					iconUrl, err := GetIconFromMyApp(packageName)
+					iconUrl, err := GetIconFromApps(packageName)
+					if err != nil {
+						iconUrl, err = GetIconFromMyApp(packageName)
+					}
 					if err == nil {
-						appInfoDao.UpdateLogo(app.Id, iconUrl)
+						err = appInfoDao.UpdateLogo(app.Id, iconUrl)
+						fmt.Println(app.Id, iconUrl, err)
 					} else {
+						fmt.Println("Omit ", app.Id, app.LogoUrl)
 						continue
 					}
 					time.Sleep(10 * time.Millisecond)
@@ -32,6 +41,32 @@ func ReplaceIcon4AppInfo(startPage int) {
 		}
 
 	}
+}
+
+func GetIconFromApps(bundleId string) (string, error) {
+	appDao := dbs.AppDao{}
+	apps, err := appDao.QueryListByBundleId(bundleId)
+	if err != nil {
+		return "", err
+	}
+	defaultIcon := ""
+	flag := true
+	for _, app := range apps {
+		if flag {
+			defaultIcon, err = ReloadPicNoUpload(app.LogoUrl, "apps", app.ID)
+			if err == nil {
+				defaultIcon = "https://file.lwoowl.cn/" + defaultIcon
+				flag = false
+			}
+		}
+		if strings.HasPrefix(app.LogoUrl, "https://file.lwoowl.cn") || strings.HasPrefix(app.LogoUrl, "https://pp.myapp.com") {
+			return app.LogoUrl, nil
+		}
+	}
+	if defaultIcon != "" {
+		return defaultIcon, nil
+	}
+	return "", errors.New("Not found.")
 }
 
 func ReplaceIcon4App(start int) {

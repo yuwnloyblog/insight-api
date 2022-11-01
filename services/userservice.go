@@ -53,6 +53,10 @@ func RegisterOrLogin(user User) (string, *User, error) {
 				}
 			}()
 		}
+		//清理缓存
+		if dbId > 0 {
+			go RemoveUserFromCache(dbId)
+		}
 	}
 	if dbId > 0 {
 		idStr, _ := utils.Encode(dbId)

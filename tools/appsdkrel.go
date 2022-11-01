@@ -18,16 +18,37 @@ func GenAppSdkRel() {
 				start = app.ID
 				if app.SdkUids != "" {
 					sdkIds := strings.Split(app.SdkUids, ",")
-					for _, sdkId := range sdkIds {
-						err = appSdkRelDao.Create(dbs.AppSdkRelDao{
-							AppId: app.ID,
-							SdkId: sdkId,
-						})
-						if err != nil {
-							fmt.Println("Fail", app.ID, sdkId)
-						} else {
-							fmt.Println("Success", app.ID, sdkId)
+
+					if app.ID < 11111 {
+						for _, sdkId := range sdkIds {
+							err = appSdkRelDao.Create(dbs.AppSdkRelDao{
+								AppId: app.ID,
+								SdkId: sdkId,
+							})
+							if err != nil {
+								fmt.Println("Fail", app.ID, sdkId)
+							} else {
+								fmt.Println("Success", app.ID, sdkId)
+							}
+							time.Sleep(5 * time.Millisecond)
 						}
+					} else {
+						appSdkRelArr := []dbs.AppSdkRelDao{}
+						for _, sdkId := range sdkIds {
+							appSdkRelArr = append(appSdkRelArr, dbs.AppSdkRelDao{
+								AppId: app.ID,
+								SdkId: sdkId,
+							})
+						}
+						if len(appSdkRelArr) > 0 {
+							err = appSdkRelDao.BatchCreate(appSdkRelArr)
+							if err != nil {
+								fmt.Println("Fail", app.ID, app.SdkUids)
+							} else {
+								fmt.Println("Success", app.ID, app.SdkUids)
+							}
+						}
+
 						time.Sleep(5 * time.Millisecond)
 					}
 				} else {

@@ -21,7 +21,7 @@ func CatchSdks() {
 		url := fmt.Sprintf("https://api.app.forkai.cn/webapi/sdks/search?page=%d", index)
 		ret, err := utils.HttpDo("POST", url, header, ``)
 		if err == nil {
-			var data SdkResp
+			var data SdksResp
 			err = json.Unmarshal([]byte(ret), &data)
 			if err == nil {
 				c := 0
@@ -29,16 +29,16 @@ func CatchSdks() {
 					c = len(data.Data.Services)
 					for _, sdk := range data.Data.Services {
 						sdkDao.Create(dbs.SdkDao{
-							ID:             sdk.Uid,
-							Name:           sdk.Name,
-							Platforms:      strings.Join(sdk.Platforms, ","),
-							Category:       sdk.Category,
-							DeveloperName:  sdk.PublisherName,
-							DeveloperId:    sdk.PublisherUid,
-							LogoUrl:        sdk.LogoUrl,
-							AppCount:       sdk.InstalledProductCount,
-							DeveloperCount: sdk.PublisherCount,
-							WebsiteCount:   sdk.InstalledWebsiteCount,
+							ID:            sdk.Uid,
+							Title:         sdk.Title,
+							Platforms:     strings.Join(sdk.Platforms, ","),
+							Category:      sdk.Category,
+							DeveloperName: sdk.PublisherName,
+							DeveloperId:   sdk.PublisherUid,
+							LogoUrl:       sdk.LogoUrl,
+							// AppCount:       sdk.InstalledProductCount,
+							// DeveloperCount: sdk.PublisherCount,
+							// WebsiteCount:   sdk.InstalledWebsiteCount,
 						})
 					}
 					fmt.Println("page:", index, "count:", c)
@@ -54,26 +54,48 @@ func CatchSdks() {
 	}
 }
 
+func CatchSdk(packageName string, headers map[string]string) *Sdk {
+	url := fmt.Sprintf("https://api.app.forkai.cn/webapi/services/%s", packageName)
+	ret, err := utils.HttpDo("GET", url, headers, ``)
+	if err == nil {
+		var sdkResp SdkResp
+		err = json.Unmarshal([]byte(ret), &sdkResp)
+		if err == nil && sdkResp.Data != nil && sdkResp.Data.Service != nil {
+			ser := sdkResp.Data.Service
+			return ser
+		}
+	}
+	return nil
+}
+
 type SdkResp struct {
 	Data *SdkCommonData `json:"data"`
 }
 
 type SdkCommonData struct {
+	Service *Sdk `json:"service"`
+}
+
+type SdksResp struct {
+	Data *SdksCommonData `json:"data"`
+}
+
+type SdksCommonData struct {
 	Total      int         `json:"total"`
 	Services   []*Sdk      `json:"services"`
 	Pagination *Pagination `json:"pagination"`
 }
 type Sdk struct {
-	Uid                   string   `json:"uid"`
-	Name                  string   `json:"name"`
-	Platforms             []string `json:"platforms"`
-	Category              string   `json:"category"`
-	PublisherName         string   `json:"publisherName"`
-	PublisherUid          string   `json:"publisherUID"`
-	LogoUrl               string   `json:"logoURL"`
-	InstalledProductCount int      `json:"installedProductCount"`
-	PublisherCount        int      `json:"publisherCount"`
-	InstalledWebsiteCount int      `json:"installedWebsiteCount"`
+	Uid           string   `json:"uid"`
+	Title         string   `json:"title"`
+	Platforms     []string `json:"platforms"`
+	Category      string   `json:"category"`
+	PublisherName string   `json:"publisherName"`
+	PublisherUid  string   `json:"publisherUID"`
+	LogoUrl       string   `json:"logoURL"`
+	// InstalledProductCount int      `json:"installedProductCount"`
+	// PublisherCount        int      `json:"publisherCount"`
+	// InstalledWebsiteCount int      `json:"installedWebsiteCount"`
 }
 
 type Pagination struct {

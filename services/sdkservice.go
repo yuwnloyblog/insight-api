@@ -4,7 +4,7 @@ import (
 	"insight-api/dbs"
 )
 
-func QuerySdksByAppId(appId string) []*SdkInfo {
+func QuerySdksByAppId(appId int64) []*SdkInfo {
 	sdkDao := dbs.SdkDao{}
 	sdkdbs, err := sdkDao.QueryList(appId)
 	if err == nil && len(sdkdbs) > 0 {
@@ -12,13 +12,14 @@ func QuerySdksByAppId(appId string) []*SdkInfo {
 		for _, sdkdb := range sdkdbs {
 			sdkInfos = append(sdkInfos, &SdkInfo{
 				Id:        sdkdb.ID,
-				Name:      sdkdb.Name,
+				Name:      sdkdb.Title,
 				Platforms: sdkdb.Platforms,
 				Category:  sdkdb.Category,
 				Developer: &Developer{
 					Title: sdkdb.DeveloperName,
 				},
-				LogoUrl: sdkdb.LogoUrl,
+				LogoUrl:  sdkdb.LogoUrl,
+				LogoUrl2: sdkdb.LogoUrl,
 			})
 		}
 		return sdkInfos

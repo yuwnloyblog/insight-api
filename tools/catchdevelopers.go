@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var header map[string]string
+//var header map[string]string
 
 func CatchDevelopers() {
 	header := map[string]string{}
@@ -57,12 +57,33 @@ func CatchDevelopers() {
 	}
 }
 
+func CatchDeveloper(devId string, headers map[string]string) *Publisher {
+	url := fmt.Sprintf("https://api.app.forkai.cn/webapi/publishers/%s", devId)
+	ret, err := utils.HttpDo("GET", url, headers, "")
+	if err == nil {
+		var publisherData PublisherResp
+		err = json.Unmarshal([]byte(ret), &publisherData)
+		if err == nil && publisherData.Data != nil && publisherData.Data.Publisher != nil {
+			publisher := publisherData.Data.Publisher
+			return publisher
+		}
+	}
+	return nil
+}
+
 type DeveloperCommonData struct {
 	Data PublishersResp `json:"data"`
 }
 
 type PublishersResp struct {
 	Publishers []*Publisher `json:"publishers"`
+}
+
+type PublisherResp struct {
+	Data *PublisherCommonData `json:"data"`
+}
+type PublisherCommonData struct {
+	Publisher *Publisher `json:"publisher"`
 }
 
 type Publisher struct {

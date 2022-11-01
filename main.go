@@ -16,11 +16,15 @@ func main() {
 	logs.InitLogs()
 	dbs.InitMysql()
 
-	//router()
-	// tools.ReloadSdkLogo("")
-	tools.TmpUpdate()
-
+	// router()
+	// tools.ReloadAppPic(354417) //356940
+	// id, err := utils.Decode("uKflLV6tU")
+	// fmt.Println(id, err)
+	// sdks := services.QuerySdksByAppId(id)
+	// fmt.Println(len(sdks))
+	tools.XiufuSdkuids()
 }
+
 func router() {
 	r := gin.Default()
 	r.Use(apis.HandleToken)

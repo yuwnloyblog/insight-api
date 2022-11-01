@@ -2,6 +2,7 @@ package apis
 
 import (
 	"insight-api/services"
+	"insight-api/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +19,13 @@ func SdkList(ctx *gin.Context) {
 		return
 	}
 
-	sdks := services.QuerySdksByAppId(appIdStr)
+	appId, err := utils.Decode(appIdStr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, services.GetError(services.ErrorCode_ParamErr))
+		return
+	}
+
+	sdks := services.QuerySdksByAppId(appId)
 	if len(sdks) > 0 {
 		for _, sdk := range sdks {
 			if sdk.Developer != nil && sdk.Developer.Id != "" {

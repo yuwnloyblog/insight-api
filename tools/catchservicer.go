@@ -57,6 +57,25 @@ func CatchServicers() {
 	}
 }
 
+func CatchServiceProvider(devId string, headers map[string]string) *Publisher {
+	url := fmt.Sprintf("https://api.app.forkai.cn/webapi/service-providers/%s", devId)
+	ret, err := utils.HttpDo("GET", url, headers, "")
+	if err == nil {
+		var providerResp ProviderResp
+		err = json.Unmarshal([]byte(ret), &providerResp)
+		if err == nil && providerResp.Data != nil && providerResp.Data.Provider != nil {
+			return providerResp.Data.Provider
+		}
+	}
+	return nil
+}
+
+type ProviderResp struct {
+	Data *ProviderCommon `json:"data"`
+}
+type ProviderCommon struct {
+	Provider *Publisher `json:"provider"`
+}
 type ServiceProviderCommonData struct {
 	Data ServiceProviderResp `json:"data"`
 }

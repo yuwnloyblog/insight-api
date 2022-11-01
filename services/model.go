@@ -64,7 +64,8 @@ type SdkInfo struct {
 	Platforms string     `json:"platform"`
 	Category  string     `json:"category"`
 	Developer *Developer `json:"devloper"`
-	LogoUrl   string     `json:"-"`
+	LogoUrl   string     `json:"logo_url"`
+	LogoUrl2  string     `json:"logoUrl"`
 }
 
 type WxLoginResp struct {

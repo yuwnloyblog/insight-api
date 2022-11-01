@@ -50,11 +50,13 @@ func UploadPic(url, middlePath string) (string, error) {
 }
 
 func GetIconUrl(packageName, logoUrl, middlePath string) string {
-	url, err := GetIconFromMyApp(packageName)
-	if err == nil && url != "" {
-		return url
+	if packageName != "" {
+		url, err := GetIconFromMyApp(packageName)
+		if err == nil && url != "" {
+			return url
+		}
 	}
-	url, err = UploadPic(logoUrl, middlePath)
+	url, err := UploadPic(logoUrl, middlePath)
 	if err == nil && url != "" {
 		return url
 	}

@@ -57,6 +57,13 @@ func (sdk SdkDao) QueryAllList(start string, count int) ([]*SdkDao, error) {
 		return items, err
 	}
 }
+func (sdk SdkDao) QueryListByPage(page, count int) ([]*SdkDao, error) {
+	var items []*SdkDao
+	whereStr := ""
+	args := []interface{}{}
+	err := db.Where(whereStr, args).Order("app_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
+	return items, err
+}
 
 func (sdk SdkDao) Create(s SdkDao) error {
 	return db.Create(&s).Error

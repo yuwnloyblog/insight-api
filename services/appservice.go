@@ -5,9 +5,9 @@ import (
 	"insight-api/utils"
 )
 
-func QueryAppInfos(keyword, devId string, page, count int) *Apps {
+func QueryAppInfos(keyword, devId, sdkId, notSdkId string, page, count int) *Apps {
 	appInfoDao := dbs.AppInfoDao{}
-	appInfos, err := appInfoDao.QueryListByPage(keyword, devId, page, count)
+	appInfos, err := appInfoDao.QueryListByPage(keyword, devId, sdkId, notSdkId, page, count)
 	apps := &Apps{
 		PageInfo: &PageInfo{
 			Page:  page,

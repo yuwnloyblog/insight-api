@@ -56,7 +56,9 @@ type Developer struct {
 }
 
 type Sdks struct {
-	Items []*SdkInfo `json:"items"`
+	Items    []*SdkInfo `json:"items"`
+	PageInfo *PageInfo  `json:"page_info"`
+	HasMore  bool       `json:"has_more"`
 }
 type SdkInfo struct {
 	Id        string     `json:"id"`

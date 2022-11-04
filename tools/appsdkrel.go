@@ -57,6 +57,7 @@ func GenAppSdkRel(s int64) {
 			}
 		} else {
 			fmt.Println("Finish!!!")
+			break
 		}
 	}
 }

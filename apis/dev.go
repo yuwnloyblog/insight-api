@@ -1,7 +1,6 @@
 package apis
 
 import (
-	"fmt"
 	"insight-api/services"
 	"insight-api/utils"
 	"net/http"
@@ -48,7 +47,6 @@ func DeveloperInfo(ctx *gin.Context) {
 	devIdStr := ctx.Query("id")
 	if devIdStr != "" {
 		devIdStr = DecodeUuid(devIdStr)
-		fmt.Println("devId", devIdStr)
 	}
 	devloper := services.GetDeveloperById(devIdStr, "")
 	if devloper != nil && devloper.Id != "" {

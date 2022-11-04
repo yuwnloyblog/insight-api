@@ -5,7 +5,6 @@ import (
 	"insight-api/configures"
 	"insight-api/dbs"
 	"insight-api/logs"
-	"insight-api/tools"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +16,8 @@ func main() {
 	dbs.InitMysql()
 
 	//router()
-	// tools.ReloadSdkLogo("")
-	tools.GenAppSdkRel(17042)
-
 }
+
 func router() {
 	r := gin.Default()
 	r.Use(apis.HandleToken)
@@ -30,17 +27,12 @@ func router() {
 	})
 	r.GET("/homeinfo", apis.HomeInfo)
 
-	r.GET("/applist", apis.AppList)
 	r.GET("/app/list", apis.AppList)
-	r.GET("/appinfo", apis.AppInfo)
 	r.GET("/app/info", apis.AppInfo)
 
-	r.GET("/devlist", apis.DeveloperList)
 	r.GET("/dev/list", apis.DeveloperList)
-	r.GET("/devinfo", apis.DeveloperInfo)
 	r.GET("/dev/info", apis.DeveloperInfo)
 
-	r.GET("/sdklist", apis.SdkList)
 	r.GET("/sdk/list", apis.SdkList)
 
 	//user

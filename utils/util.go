@@ -31,7 +31,7 @@ func GetClearUuid() string {
 	return strings.ReplaceAll(id, "-", "")
 }
 
-var directory string = "23456789abcdefghigkmnpqrstuvwxyz"
+var directory string = "0123456789abcdefghijklmnopqrstuv" //"23456789abcdefghigkmnpqrstuvwxyz"
 
 func PruneUuid(uuidStr string) (string, error) {
 	str := strings.ReplaceAll(uuidStr, "-", "")

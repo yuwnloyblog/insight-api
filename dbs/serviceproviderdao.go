@@ -33,6 +33,11 @@ type ServiceProviderDao struct {
 	WebsiteCount   int       `gorm:"website_count"`
 	ServiceCount   int       `gorm:"service_count"`
 	DeveloperCount int       `gorm:"developer_count"`
+
+	Address     string `gorm:"address"`
+	Website     string `gorm:"website"`
+	Description string `gorm:"description"`
+	Email       string `gorm:"email"`
 }
 
 func (dev ServiceProviderDao) TableName() string {

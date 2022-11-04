@@ -2,13 +2,11 @@ package dbs
 
 import (
 	"strings"
-
-	"gorm.io/gorm"
 )
 
 type SdkDao struct {
 	ID             string `gorm:"id"`
-	Name           string `gorm:"name"`
+	Title          string `gorm:"title"`
 	Platforms      string `gorm:"platforms"`
 	Category       string `gorm:"category"`
 	DeveloperName  string `gorm:"developer_name"`
@@ -23,20 +21,18 @@ func (sdk SdkDao) TableName() string {
 	return "sdks"
 }
 
-func (sdk SdkDao) FindById(id int64) (*SdkDao, error) {
+func (sdk SdkDao) FindById(id string) (*SdkDao, error) {
 	var appItem SdkDao
 	err := db.Where("id=?", id).Take(&appItem).Error
 	if err != nil {
 		return nil, err
-	} else if err == gorm.ErrRecordNotFound {
-		return nil, nil
 	}
 	return &appItem, nil
 }
 
-func (sdk SdkDao) QueryList(appUid string) ([]*SdkDao, error) {
+func (sdk SdkDao) QueryList(appId int64) ([]*SdkDao, error) {
 	appDao := AppDao{}
-	app, err := appDao.FindByUid(appUid)
+	app, err := appDao.FindById(appId)
 	if err != nil {
 		return nil, err
 	}
@@ -60,6 +56,13 @@ func (sdk SdkDao) QueryAllList(start string, count int) ([]*SdkDao, error) {
 		err := db.Order("id asc").Limit(count).Find(&items).Error
 		return items, err
 	}
+}
+func (sdk SdkDao) QueryListByPage(page, count int) ([]*SdkDao, error) {
+	var items []*SdkDao
+	whereStr := ""
+	args := []interface{}{}
+	err := db.Where(whereStr, args).Order("app_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
+	return items, err
 }
 
 func (sdk SdkDao) Create(s SdkDao) error {

@@ -12,6 +12,8 @@ import (
 func AppList(ctx *gin.Context) {
 	pageStr := ctx.Query("page")
 	devId := ctx.Query("dev_id")
+	sdkId := ctx.Query("sdk_id")
+	notSdkId := ctx.Query("not_sdk_id")
 
 	if devId != "" {
 		devId = DecodeUuid(devId)
@@ -41,10 +43,11 @@ func AppList(ctx *gin.Context) {
 		return
 	}
 
-	if devId != "" && !checkPay(ctx) {
+	if (devId != "" || sdkId != "" || notSdkId != "") && !checkPay(ctx) {
 		return
 	}
-	retApps := services.QueryAppInfos(keyword, devId, page, count)
+
+	retApps := services.QueryAppInfos(keyword, devId, sdkId, notSdkId, page, count)
 	if retApps != nil && len(retApps.Items) > 0 {
 		for _, app := range retApps.Items {
 			if app.Developer.Id != "" {

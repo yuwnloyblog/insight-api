@@ -1,6 +1,8 @@
 package dbs
 
-import "time"
+import (
+	"time"
+)
 
 type AppInfoDao struct {
 	Id                string    `gorm:"id"`
@@ -36,7 +38,7 @@ func (app AppInfoDao) QueryList(start string, count int) ([]*AppInfoDao, error) 
 	err := db.Where("id>?", start).Order("id asc").Find(&items).Error
 	return items, err
 }
-func (app AppInfoDao) QueryListByPage(keyword, devId string, page, count int) ([]*AppInfoDao, error) {
+func (app AppInfoDao) QueryListByPage(keyword, devId, sdkId, notSdkId string, page, count int) ([]*AppInfoDao, error) {
 	var items []*AppInfoDao
 	whereStr := ""
 	args := []interface{}{}
@@ -54,6 +56,21 @@ func (app AppInfoDao) QueryListByPage(keyword, devId string, page, count int) ([
 		whereStr = whereStr + " developer_id = ? "
 		args = append(args, devId)
 	}
+	if sdkId != "" {
+		if whereStr != "" {
+			whereStr = whereStr + " AND "
+		}
+		whereStr = whereStr + " sdk_id!=? "
+		args = append(args, sdkId)
+
+		sql := "SELECT * FROM appinfos LEFT JOIN app_sdk_rel on app_sdk_rel.app_bundle_id=appinfos.id"
+		if whereStr != "" {
+			sql = sql + " WHERE " + whereStr
+		}
+		err := db.Raw(sql, args...).Order("download_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
+		return items, err
+	}
+
 	err := db.Where(whereStr, args...).Order("download_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
 	return items, err
 }

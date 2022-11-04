@@ -73,6 +73,44 @@ func CatchApps() {
 		time.Sleep(1 * time.Second)
 	}
 }
+func CatchApp(uid string, headers map[string]string) *Product {
+	url := fmt.Sprintf("https://api.app.forkai.cn/webapi/products/v2/%s", uid)
+	ret, err := utils.HttpDo("GET", url, headers, ``)
+	if err == nil {
+		fmt.Println(ret)
+		var proResp ProductResp
+		err = json.Unmarshal([]byte(ret), &proResp)
+		if err == nil && proResp.Data != nil {
+			return proResp.Data.Product
+		}
+	} else {
+		fmt.Println("Error_Catch_App", uid, err)
+	}
+	return nil
+}
+
+func CatchAppBySearch(uid, channel, keyword string, headers map[string]string) *Product {
+	url := "https://api.app.forkai.cn/webapi/products/query?page=1"
+	body := fmt.Sprintf(`{
+		"keyword": "%s",
+		"channel": "%s",
+		"countryCode": "CN"
+	  }`, keyword, channel)
+	ret, err := utils.HttpDo("POST", url, headers, body)
+	if err == nil {
+		var prosResp ProductsResp
+		err = json.Unmarshal([]byte(ret), &prosResp)
+		if err == nil && prosResp.Data != nil {
+			for _, pro := range prosResp.Data.Products {
+				if pro.Uid == uid {
+					return pro
+				}
+			}
+		}
+	}
+	return nil
+}
+
 func ParsePaid(paid bool) string {
 	if paid {
 		return "1"
@@ -81,7 +119,13 @@ func ParsePaid(paid bool) string {
 }
 
 type ProductsResp struct {
-	Data ProductCommonData `json:"data"`
+	Data *ProductCommonData `json:"data"`
+}
+type ProductResp struct {
+	Data *ProductCommon `json:"data"`
+}
+type ProductCommon struct {
+	Product *Product `json:"product"`
 }
 
 type ProductCommonData struct {

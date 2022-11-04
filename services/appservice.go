@@ -2,11 +2,12 @@ package services
 
 import (
 	"insight-api/dbs"
+	"insight-api/utils"
 )
 
-func QueryAppInfos(keyword, devId string, page, count int) *Apps {
+func QueryAppInfos(keyword, devId, sdkId, notSdkId string, page, count int) *Apps {
 	appInfoDao := dbs.AppInfoDao{}
-	appInfos, err := appInfoDao.QueryListByPage(keyword, devId, page, count)
+	appInfos, err := appInfoDao.QueryListByPage(keyword, devId, sdkId, notSdkId, page, count)
 	apps := &Apps{
 		PageInfo: &PageInfo{
 			Page:  page,
@@ -47,8 +48,9 @@ func GetAppByIdStr(appIdStr string) map[string]*App {
 	}
 	ret := map[string]*App{}
 	for _, app := range apps {
+		idStr, _ := utils.Encode(app.ID)
 		appItem := &App{
-			Id:                app.Uid,
+			Id:                idStr,
 			Title:             app.Title,
 			BundleId:          app.BundleId,
 			Platform:          app.Platform,
@@ -65,7 +67,9 @@ func GetAppByIdStr(appIdStr string) map[string]*App {
 			LatestReleaseDate: app.LatestReleaseDate,
 			FirstReleaseDate:  app.FirstReleaseDate,
 		}
-		ret[app.Channel] = appItem
+		if app.SdkUids != "" {
+			ret[app.Channel] = appItem
+		}
 	}
 	return ret
 }

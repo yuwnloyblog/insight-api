@@ -84,6 +84,11 @@ func (app AppDao) QueryList(keyword, devId string, start int64, count int) ([]*A
 	return items, err
 
 }
+func (app AppDao) QueryNoSdks(offset, limit int) ([]*AppDao, error) {
+	var items []*AppDao
+	err := db.Where("sdk_uids=''").Limit(limit).Offset(offset).Find(&items).Error
+	return items, err
+}
 
 func (app AppDao) QueryListByPage(keyword, devId string, page, count int) ([]*AppDao, error) {
 	var items []*AppDao
@@ -107,9 +112,9 @@ func (app AppDao) QueryListByPage(keyword, devId string, page, count int) ([]*Ap
 	return items, err
 }
 
-func (app AppDao) Create(item AppDao) error {
+func (app AppDao) Create(item AppDao) (int64, error) {
 	err := db.Create(&item).Error
-	return err
+	return item.ID, err
 }
 
 func (app AppDao) UpdateLogo(id int64, url string) error {

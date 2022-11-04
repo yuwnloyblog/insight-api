@@ -56,7 +56,9 @@ type Developer struct {
 }
 
 type Sdks struct {
-	Items []*SdkInfo `json:"items"`
+	Items    []*SdkInfo `json:"items"`
+	PageInfo *PageInfo  `json:"page_info"`
+	HasMore  bool       `json:"has_more"`
 }
 type SdkInfo struct {
 	Id        string     `json:"id"`
@@ -64,7 +66,8 @@ type SdkInfo struct {
 	Platforms string     `json:"platform"`
 	Category  string     `json:"category"`
 	Developer *Developer `json:"devloper"`
-	LogoUrl   string     `json:"-"`
+	LogoUrl   string     `json:"logo_url"`
+	LogoUrl2  string     `json:"logoUrl"`
 }
 
 type WxLoginResp struct {

@@ -6,9 +6,10 @@ import (
 )
 
 type AppSdkRelDao struct {
-	ID    int    `gorm:"primary_key"`
-	AppId int64  `gorm:"app_id"`
-	SdkId string `gorm:"sdk_id"`
+	ID          int    `gorm:"primary_key"`
+	AppId       int64  `gorm:"app_id"`
+	SdkId       string `gorm:"sdk_id"`
+	AppBundleId string `gorm:"app_bundle_id"`
 }
 
 func (sdk AppSdkRelDao) TableName() string {
@@ -34,4 +35,10 @@ func (app AppSdkRelDao) BatchCreate(items []AppSdkRelDao) error {
 		}
 	}
 	return db.Exec(buffer.String()).Error
+}
+
+func (app AppSdkRelDao) UpdateByAppId(appId int64, bundleId string) error {
+	upd := map[string]interface{}{}
+	upd["app_bundle_id"] = bundleId
+	return db.Model(&app).Where("app_id=?", appId).Update(upd).Error
 }

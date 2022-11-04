@@ -15,7 +15,7 @@ func main() {
 	logs.InitLogs()
 	dbs.InitMysql()
 
-	//router()
+	router()
 }
 
 func router() {

@@ -18,7 +18,7 @@ func main() {
 
 	//router()
 	// tools.ReloadSdkLogo("")
-	tools.TmpUpdate()
+	tools.GenAppSdkRel(17042)
 
 }
 func router() {

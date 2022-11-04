@@ -22,15 +22,15 @@ func (app AppSdkRelDao) Create(item AppSdkRelDao) error {
 
 func (app AppSdkRelDao) BatchCreate(items []AppSdkRelDao) error {
 	var buffer bytes.Buffer
-	sql := "insert into `" + app.TableName() + "` (`app_id`,`sdk_id`) values"
+	sql := "insert into `" + app.TableName() + "` (`app_id`,`sdk_id`) values "
 	if _, err := buffer.WriteString(sql); err != nil {
 		return err
 	}
 	for i, item := range items {
 		if i == len(items)-1 {
-			buffer.WriteString(fmt.Sprintf("(%d,`%s`);", item.AppId, item.SdkId))
+			buffer.WriteString(fmt.Sprintf("(%d,'%s');", item.AppId, item.SdkId))
 		} else {
-			buffer.WriteString(fmt.Sprintf("(%d,`%s`),", item.AppId, item.SdkId))
+			buffer.WriteString(fmt.Sprintf("(%d,'%s'),", item.AppId, item.SdkId))
 		}
 	}
 	return db.Exec(buffer.String()).Error

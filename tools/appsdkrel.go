@@ -7,10 +7,10 @@ import (
 	"time"
 )
 
-func GenAppSdkRel() {
+func GenAppSdkRel(s int64) {
 	appDao := dbs.AppDao{}
 	appSdkRelDao := dbs.AppSdkRelDao{}
-	start := int64(0)
+	start := s
 	for {
 		list, err := appDao.QueryList("", "", start, 1000)
 		if err == nil && len(list) > 0 {
@@ -19,7 +19,7 @@ func GenAppSdkRel() {
 				if app.SdkUids != "" {
 					sdkIds := strings.Split(app.SdkUids, ",")
 
-					if app.ID < 11111 {
+					if app.ID < 17050 {
 						for _, sdkId := range sdkIds {
 							err = appSdkRelDao.Create(dbs.AppSdkRelDao{
 								AppId: app.ID,
@@ -43,9 +43,9 @@ func GenAppSdkRel() {
 						if len(appSdkRelArr) > 0 {
 							err = appSdkRelDao.BatchCreate(appSdkRelArr)
 							if err != nil {
-								fmt.Println("Fail", app.ID, app.SdkUids)
+								fmt.Println("Fail", app.ID)
 							} else {
-								fmt.Println("Success", app.ID, app.SdkUids)
+								fmt.Println("Success", app.ID)
 							}
 						}
 

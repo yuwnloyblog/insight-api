@@ -7,6 +7,31 @@ import (
 	"time"
 )
 
+func AddBundle4SdkRel(s int64) {
+	appDao := dbs.AppDao{}
+	appSdkRelDao := dbs.AppSdkRelDao{}
+	start := s
+	for {
+		list, err := appDao.QueryList("", "", start, 1000)
+		if err == nil && len(list) > 0 {
+			for _, app := range list {
+				start = app.ID
+				if app.BundleId != "" {
+					err = appSdkRelDao.UpdateByAppId(app.ID, app.BundleId)
+					if err == nil {
+						fmt.Println("success ", app.ID)
+					} else {
+						fmt.Println("Fail ", app.ID, err)
+					}
+					time.Sleep(5 * time.Millisecond)
+				}
+			}
+		} else {
+			fmt.Println("Finish!!!")
+		}
+	}
+}
+
 func GenAppSdkRel(s int64) {
 	appDao := dbs.AppDao{}
 	appSdkRelDao := dbs.AppSdkRelDao{}

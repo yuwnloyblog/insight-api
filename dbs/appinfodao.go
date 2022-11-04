@@ -56,11 +56,16 @@ func (app AppInfoDao) QueryListByPage(keyword, devId, sdkId, notSdkId string, pa
 		whereStr = whereStr + " developer_id = ? "
 		args = append(args, devId)
 	}
-	if sdkId != "" {
+
+	if sdkId != "" || notSdkId != "" {
 		if whereStr != "" {
 			whereStr = whereStr + " AND "
 		}
-		whereStr = whereStr + " sdk_id!=? "
+		if sdkId != "" {
+			whereStr = whereStr + " sdk_id=? "
+		} else {
+			whereStr = whereStr + " sdk_id!=? "
+		}
 		args = append(args, sdkId)
 
 		sql := "SELECT * FROM appinfos LEFT JOIN app_sdk_rel on app_sdk_rel.app_bundle_id=appinfos.id"

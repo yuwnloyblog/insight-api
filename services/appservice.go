@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"insight-api/dbs"
 	"insight-api/utils"
 )
@@ -35,6 +36,38 @@ func QueryAppInfos(keyword, devId, sdkId, notSdkId string, page, count int) *App
 				Category:      appInfo.Category,
 				LatestVersion: appInfo.LatestVersion,
 			})
+		}
+	}
+	return apps
+}
+func QueryAppInfosByIndex(keyword string, page, count int) *Apps {
+	query := IndexQuery{
+		Query: keyword,
+		Page:  page,
+		Limit: count,
+	}
+	apps := &Apps{
+		PageInfo: &PageInfo{
+			Page:  page,
+			Count: count,
+		},
+	}
+	bs, _ := json.Marshal(query)
+	headers := map[string]string{}
+	headers["Content-Type"] = "application/json"
+	body := string(bs)
+	ret, err := utils.HttpDo("POST", "http://127.0.0.1:5678/api/query?database=appinfos", headers, body)
+	if err == nil {
+		var resp IndexResp
+		err = json.Unmarshal([]byte(ret), &resp)
+		if err == nil && resp.Data != nil {
+			apps.Items = []*App{}
+			for _, doc := range resp.Data.Documents {
+				if doc.Document != nil {
+					doc.Document.Title = doc.Text
+					apps.Items = append(apps.Items, doc.Document)
+				}
+			}
 		}
 	}
 	return apps

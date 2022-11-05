@@ -131,3 +131,75 @@ type UserOrder struct {
 	FellowType  int    `json:"fellow_type"`
 	Description string `json:"description"`
 }
+
+/*appinfo  index*/
+type IndexQuery struct {
+	Query     string          `json:"query"`
+	Page      int             `json:"page"`
+	Limit     int             `json:"limit"`
+	Order     string          `json:"order,omitempty"`
+	HighLight *IndexHighLight `json:"highlight,omitempty"`
+}
+type IndexHighLight struct {
+	PreTag  string `json:"preTag"`  //<span style='color:red'>
+	postTag string `json:"postTag"` //</span>
+}
+type IndexResp struct {
+	State   bool           `json:"state"`
+	Message string         `json:"message"`
+	Data    *IndexRespData `json:"data"`
+}
+type IndexRespData struct {
+	Total     int                  `json:"total"`
+	PageCount int                  `json:"pageCount"`
+	Page      int                  `json:"page"`
+	Limit     int                  `json:"limit"`
+	Documents []*IndexRespDocument `json:"documents"`
+}
+type IndexRespDocument struct {
+	Id       int64  `json:"id"`
+	Text     string `json:"text"`
+	Document *App   `json:"document"`
+}
+
+/*
+{
+    "state": true,
+    "message": "success",
+    "data": {
+        "time": 561.924417,
+        "total": 2,
+        "pageCount": 1,
+        "page": 1,
+        "limit": 10,
+        "documents": [
+            {
+                "id": 251,
+                "text": "棒人間でターザン",
+                "document": {
+                    "category": "游戏",
+                    "channel": "apple",
+                    "create_time": 1665477688811,
+                    "desc": "",
+                    "developer": {
+                        "title": "Isamu Sakashita"
+                    },
+                    "id": "1982072109",
+                    "latest_version": "1.0.4",
+                    "logo_url": "https://app-store-icon.oss-cn-hongkong.aliyuncs.com/image/thumb/Purple111/v4/32/3e/88/323e889a-95ba-73cf-9dc3-27a783012059/source/512x512bb.jpg",
+                    "size": 0,
+                    "title": "",
+                    "website": "http://isamusakashita.sakura.ne.jp"
+                },
+                "score": 2,
+                "keys": [
+                    "棒",
+                    "人間",
+                    "で",
+                    "タ",
+                    "ー",
+                    "ザ",
+                    "ン"
+                ]
+            },
+*/

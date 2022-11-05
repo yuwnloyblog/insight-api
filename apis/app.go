@@ -46,8 +46,12 @@ func AppList(ctx *gin.Context) {
 	if (devId != "" || sdkId != "" || notSdkId != "") && !checkPay(ctx) {
 		return
 	}
-
-	retApps := services.QueryAppInfos(keyword, devId, sdkId, notSdkId, page, count)
+	var retApps *services.Apps
+	if keyword != "" {
+		retApps = services.QueryAppInfosByIndex(keyword, page, count)
+	} else {
+		retApps = services.QueryAppInfos(keyword, devId, sdkId, notSdkId, page, count)
+	}
 	if retApps != nil && len(retApps.Items) > 0 {
 		for _, app := range retApps.Items {
 			if app.Developer.Id != "" {

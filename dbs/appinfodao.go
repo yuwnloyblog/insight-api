@@ -72,7 +72,7 @@ func (app AppInfoDao) QueryListByPage(keyword, devId, sdkId, notSdkId string, pa
 		if whereStr != "" {
 			sql = sql + " WHERE " + whereStr
 		}
-		err := db.Raw(sql, args...).Order("download_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
+		err := db.Raw(sql, args...).Limit(count).Offset((page - 1) * count).Find(&items).Error
 		return items, err
 	}
 

@@ -29,6 +29,7 @@ func SdkList(ctx *gin.Context) {
 	} else {
 		pageStr := ctx.Query("page")
 		countStr := ctx.Query("count")
+		keyword := ctx.Query("keyword")
 		count, err := utils.ParseInt(countStr)
 		if err != nil {
 			count = 50
@@ -45,7 +46,7 @@ func SdkList(ctx *gin.Context) {
 				page = 1
 			}
 		}
-		sdks = services.QuerySdksByPage(page, count)
+		sdks = services.QuerySdksByPage(keyword, page, count)
 	}
 
 	if sdks != nil && len(sdks.Items) > 0 {

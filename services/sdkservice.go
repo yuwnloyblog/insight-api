@@ -4,9 +4,9 @@ import (
 	"insight-api/dbs"
 )
 
-func QuerySdksByPage(page, count int) *Sdks {
+func QuerySdksByPage(keyword string, page, count int) *Sdks {
 	sdkDao := dbs.SdkDao{}
-	sdkdbs, err := sdkDao.QueryListByPage(page, count)
+	sdkdbs, err := sdkDao.QueryListByPage(keyword, page, count)
 	if err == nil && len(sdkdbs) > 0 {
 		sdkInfos := []*SdkInfo{}
 		for _, sdkdb := range sdkdbs {
@@ -21,13 +21,13 @@ func QuerySdksByPage(page, count int) *Sdks {
 				LogoUrl:  sdkdb.LogoUrl,
 				LogoUrl2: sdkdb.LogoUrl,
 			})
-			return &Sdks{
-				Items: sdkInfos,
-				PageInfo: &PageInfo{
-					Page:  page,
-					Count: count,
-				},
-			}
+		}
+		return &Sdks{
+			Items: sdkInfos,
+			PageInfo: &PageInfo{
+				Page:  page,
+				Count: count,
+			},
 		}
 	}
 	return &Sdks{}

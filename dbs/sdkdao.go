@@ -57,11 +57,18 @@ func (sdk SdkDao) QueryAllList(start string, count int) ([]*SdkDao, error) {
 		return items, err
 	}
 }
-func (sdk SdkDao) QueryListByPage(page, count int) ([]*SdkDao, error) {
+func (sdk SdkDao) QueryListByPage(keyword string, page, count int) ([]*SdkDao, error) {
 	var items []*SdkDao
 	whereStr := ""
 	args := []interface{}{}
-	err := db.Where(whereStr, args).Order("app_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
+	if keyword != "" {
+		if whereStr != "" {
+			whereStr = whereStr + " AND "
+		}
+		whereStr = whereStr + " title like ? "
+		args = append(args, "%"+keyword+"%")
+	}
+	err := db.Debug().Where(whereStr, args).Order("app_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
 	return items, err
 }
 

@@ -68,11 +68,11 @@ func (app AppInfoDao) QueryListByPage(keyword, devId, sdkId, notSdkId string, pa
 		}
 		args = append(args, sdkId)
 
-		sql := "SELECT * FROM appinfos LEFT JOIN app_sdk_rel on app_sdk_rel.app_bundle_id=appinfos.id"
+		sql := "SELECT * FROM app_sdk_rel LEFT JOIN appinfos on app_sdk_rel.app_bundle_id=appinfos.id"
 		if whereStr != "" {
 			sql = sql + " WHERE " + whereStr
 		}
-		err := db.Raw(sql, args...).Limit(count).Offset((page - 1) * count).Find(&items).Error
+		err := db.Raw(sql, args...).Order("app_download_count desc").Limit(count).Offset((page - 1) * count).Find(&items).Error
 		return items, err
 	}
 

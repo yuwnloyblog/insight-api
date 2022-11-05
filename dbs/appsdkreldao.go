@@ -6,10 +6,11 @@ import (
 )
 
 type AppSdkRelDao struct {
-	ID          int    `gorm:"primary_key"`
-	AppId       int64  `gorm:"app_id"`
-	SdkId       string `gorm:"sdk_id"`
-	AppBundleId string `gorm:"app_bundle_id"`
+	ID               int    `gorm:"primary_key"`
+	AppId            int64  `gorm:"app_id"`
+	SdkId            string `gorm:"sdk_id"`
+	AppBundleId      string `gorm:"app_bundle_id"`
+	AppDownloadCount int64  `gorm:"app_download_count"`
 }
 
 func (sdk AppSdkRelDao) TableName() string {

@@ -35,7 +35,7 @@ func (app AppInfoDao) FindById(id string) (*AppInfoDao, error) {
 }
 func (app AppInfoDao) QueryList(start string, count int) ([]*AppInfoDao, error) {
 	var items []*AppInfoDao
-	err := db.Where("id>?", start).Order("id asc").Find(&items).Error
+	err := db.Where("id>?", start).Order("id asc").Limit(count).Find(&items).Error
 	return items, err
 }
 func (app AppInfoDao) QueryListByPage(keyword, devId, sdkId, notSdkId string, page, count int) ([]*AppInfoDao, error) {

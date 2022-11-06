@@ -7,6 +7,33 @@ import (
 	"time"
 )
 
+func AddDowncount4Rel(s string) {
+	appinfoDao := dbs.AppInfoDao{}
+	appSdkDao := dbs.AppSdkRelDao{}
+	start := s
+	for {
+		list, err := appinfoDao.QueryList(start, 100)
+		if err == nil && len(list) > 0 {
+			for _, app := range list {
+				start = app.Id
+				if app.DownloadCount > 0 {
+					err = appSdkDao.UpdateByBundleId(app.Id, app.DownloadCount)
+					if err == nil {
+						fmt.Println("success ", app.Id)
+					} else {
+						fmt.Println("fail ", app.Id, err)
+					}
+
+					time.Sleep(5 * time.Millisecond)
+				}
+			}
+		} else {
+			fmt.Println("Finish!!!")
+			break
+		}
+	}
+}
+
 func AddBundle4SdkRel(s int64) {
 	appDao := dbs.AppDao{}
 	appSdkRelDao := dbs.AppSdkRelDao{}

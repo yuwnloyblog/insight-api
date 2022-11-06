@@ -43,3 +43,9 @@ func (app AppSdkRelDao) UpdateByAppId(appId int64, bundleId string) error {
 	upd["app_bundle_id"] = bundleId
 	return db.Model(&app).Where("app_id=?", appId).Update(upd).Error
 }
+
+func (app AppSdkRelDao) UpdateByBundleId(bundleId string, appDownCount int64) error {
+	upd := map[string]interface{}{}
+	upd["app_download_count"] = appDownCount
+	return db.Model(&app).Where("app_bundle_id=?", bundleId).Update(upd).Error
+}

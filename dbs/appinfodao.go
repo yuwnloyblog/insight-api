@@ -9,7 +9,7 @@ type AppInfoDao struct {
 	Title             string    `grom:"title"`
 	Website           string    `gorm:"website"`
 	Description       string    `gorm:"description"`
-	CreateTime        time.Time `gorm:"time"`
+	CreateTime        time.Time `gorm:"create_time"`
 	LogoUrl           string    `gorm:"logo_url"`
 	Category          string    `gorm:"category"`
 	LatestVersion     string    `gorm:"latest_version"`
@@ -68,7 +68,7 @@ func (app AppInfoDao) QueryListByPage(keyword, devId, sdkId, notSdkId string, pa
 		}
 		args = append(args, sdkId)
 
-		sql := "SELECT * FROM app_sdk_rel LEFT JOIN appinfos on app_sdk_rel.app_bundle_id=appinfos.id"
+		sql := "SELECT distinct appinfos.id,title,website,description,create_time,logo_url,category,latest_version,download_count,developer_id,developer_title,first_release_date,latest_release_date,channels,app_sdk_rel.app_download_count FROM app_sdk_rel LEFT JOIN appinfos on app_sdk_rel.app_bundle_id=appinfos.id"
 		if whereStr != "" {
 			sql = sql + " WHERE " + whereStr
 		}

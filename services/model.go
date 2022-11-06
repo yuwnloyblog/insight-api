@@ -22,7 +22,7 @@ type App struct {
 	Title             string     `json:"title"`
 	BundleId          string     `json:"bundle_id,omitempty"` //包名
 	Platform          string     `json:"platform,omitempty"`  //平台，iOS/Android
-	Channel           string     `json:"-"`                   //`json:"channel"`             //苹果，华为，小米等
+	Channel           string     `json:"channel"`             //苹果，华为，小米等
 	Website           string     `json:"website"`
 	Description       string     `json:"desc"`
 	LatestReleaseDate string     `json:"latest_release_date,omitempty"`
@@ -30,7 +30,7 @@ type App struct {
 	Developer         *Developer `json:"developer"`
 	Size              int64      `json:"size"`
 	CreateTime        int64      `json:"create_time"`
-	LogoUrl           string     `json:"-"` //`json:"logo_url"`
+	LogoUrl           string     `json:"logo_url"`
 	Category          string     `json:"category"`
 	LatestVersion     string     `json:"latest_version,omitempty"`
 	CountryCode       string     `json:"country_code,omitempty"`

@@ -16,6 +16,7 @@ func main() {
 	dbs.InitMysql()
 
 	router()
+	// tools.AddDowncount4Rel("")
 }
 
 func router() {
